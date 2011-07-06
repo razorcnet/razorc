@@ -1,0 +1,72 @@
+﻿@{  
+    //check what page is requested and load data from database
+    var pageName = Context.GetRouteValue("rcPageName");
+    if (pageName == null){pageName = "default";}
+
+    var db = Database.Open("razorC"); 
+    var selectQueryString = "SELECT pId, pName, pTitle, pText, mTitle, mDescription, mKeywords, pMasterPage, pBody "
+                            + "FROM rc_Pages "
+                            + "WHERE pName = @0";
+
+
+    var data = db.QuerySingle (selectQueryString, pageName);
+    if (data == null){Response.Redirect("~/");}
+    
+    //set layout for requested page
+    Layout = "~/rcLayouts/"+ data.pMasterpage;
+    
+    //set meta tags for requested page
+    Page.mTitle = data.mTitle;
+    Page.mKeywords = data.mKeywords;
+    Page.mDescription = data.mDescription;
+
+    //this will select all widgets for selected page. widgets will be loaded to sections rcHeader, rcTOP, rcLeft, rcRight, rcBottom, rcFooter
+    // var sectionName = "";
+    var selectWidgets = "Select rc_PageWidget.pId, rc_PageWidget.sName, rc_PageWidget.wId, rc_Widgets.wTitle, rc_Widgets.wText, rc_Widgets.wFile "
+                        + "from rc_PageWidget inner join rc_Widgets on rc_PageWidget.wId = rc_Widgets.Id "
+                        + "where rc_PageWidget.pId=@0 order by sName, rc_PageWidget.wOrderId";
+
+              
+    //query based on ID of already selected page data.pID                         
+    var widgets = db.Query(selectWidgets, data.pId);
+}
+@section head{
+@* DO NOT REMOVE THIS COPYRIGHT *@
+<!--
+razorC.net - http://www.razorC.net 
+Copyright (c) @DateTime.Now.Year  by New Media Group, Inc. 
+Released for free under MS-PL
+-->
+}
+@*render body*@
+@if (data.pBody){
+@RenderPage("~/rcTemplates/Body/" + data.pMasterpage, data)
+}
+
+@*render sections: rcTOP, rcLeft, rcRight, rcBottom by default we have 4 sections but you can create as many as you need*@
+@{
+   var sn = "";
+   foreach (var widget in widgets) { 
+   
+   var sectionName = (string)widget.sName;
+   var wFile = (string)widget.wFile;
+   if(sn!=sectionName)
+   {
+       
+       DefineSection(sectionName, () => {
+       foreach (var row in widgets)
+       {
+           if (row.sName == sectionName) { 
+           Write(RenderPage("~/rcTemplates/" + wFile , row)); 
+           }
+       }
+       
+   }); 
+       
+       
+   }
+   sn = sectionName;
+   
+}
+}
+
