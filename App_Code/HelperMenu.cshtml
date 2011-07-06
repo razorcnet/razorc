@@ -1,0 +1,12 @@
+﻿@helper SimpleMenu() {
+    var db = Database.Open("razorC");
+    var sqlSelect = "select * from rc_SimpleMenu order by smOrderId DESC";
+    var data = db.Query(sqlSelect);
+   <ul>
+    @foreach (var row in data)
+    {
+       <li><a href="@Href(row.smUrl)" target="@row.smTarget">@row.smName</a></li>
+    }
+    </ul>
+}
+
