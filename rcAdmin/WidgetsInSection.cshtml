@@ -1,0 +1,134 @@
+﻿@{
+    var pageId = Request["pId"];
+    var pageName = Request["pName"];
+
+    Page.Title = "Widgets In Section (page:" + pageName  + ")" ;
+    
+    var errMsg = "";
+    var disableButton = false;
+    var wId = Request["wId"];
+    var sName = Request["sName"];
+    var wOrderId = Request["wOrderId"];
+     
+    var db = Database.Open("razorC");
+
+    var sqlSelectWidgets = "Select Id, wName from rc_Widgets order by wName";
+    var Widgets = db.Query(sqlSelectWidgets);
+    
+    
+    //delete record 
+    var deleteID = Request["deleteId"];
+    if (!deleteID.IsEmpty())
+    {
+        var sqlDelete = "delete from rc_PageWidget where Id=@0";
+        db.Execute(sqlDelete, deleteID);
+        Response.Redirect("WidgetsInSection.cshtml?pId="+pageId+"&pName="+pageName );
+    }
+        
+    if (IsPost)
+    {
+
+        if (wOrderId.IsEmpty())
+        {
+            errMsg = "Please enter order id<br/>";
+        }
+        if (pageId.IsEmpty())
+        {
+            errMsg += "Id of the page is missing !<br/>";
+        }
+        if (wId.IsEmpty())
+        {
+            errMsg += "<h2>Please, create some <a href=\"NewWidget\">widgets first</a></h2><br/>";
+            disableButton = true;
+        }
+
+        //no errors = insert record
+        if (errMsg.IsEmpty())
+        {
+            var sqlInsert = "Insert into rc_PageWidget "
+                + "(wId, sName, wOrderId, pId) values "
+                + "(@0, @1, @2, @3)";
+            try
+            {
+                db.Execute(sqlInsert, wId, sName, wOrderId, pageId);
+                Response.Redirect("WidgetsInSection.cshtml?pId="+pageId+"&pName="+pageName);
+            }
+            catch (Exception ex)
+            {
+
+                errMsg = ex.Message.ToString();
+            }
+
+        }
+
+
+    
+
+    }
+
+    var sqlSelect = "Select rc_PageWidget.*, rc_Widgets.wName from rc_Pagewidget "
+                + "inner join rc_Widgets on rc_PageWidget.wId = rc_Widgets.ID "
+                + "where pId= @0 order by sName ASC, wOrderId DESC";
+
+    var data = db.Query(sqlSelect, pageId );
+    var grid = new WebGrid(data);
+}
+
+
+@section head {
+    
+}
+
+ <fieldset>
+   <legend>Insert</legend>
+   @if (!errMsg.IsEmpty())
+    {
+    <div> 
+        @Html.Raw(errMsg)
+    </div>
+    }
+
+     <form action="" method="post">
+       <ol>
+            <li >
+                <label for="sName">Section name:</label>
+                <select id="sName" name="sName" >
+                      <option value="rcTop" @if (sName == "rcTop"){<text>selected="selected"</text>}>Top</option>
+                      <option value="rcLeft"  @if (sName == "rcLeft"){<text>selected="selected"</text>}>Left</option>
+                      <option value="rcRight" @if (sName == "rcRight"){<text>selected="selected"</text>}>Right</option>
+                      <option value="rcBottom" @if (sName == "rcBottom"){<text>selected="selected"</text>} >Bottom</option>
+                  </select>
+             </li>
+             <li >
+                <label for="wId">Widget:</label>
+                 <select id="wId" name="wId">
+                 @foreach (var row in Widgets)
+                 {
+                      <option value="@row.Id" @if (wId.AsInt() == row.Id){<text>selected="selected"</text>}>@row.wName</option>
+                 }
+                 </select>
+             </li>
+             <li >
+                <label for="wOrderId">Order Id:</label>
+                <input type="text" name="wOrderId" id="wOrderId" value="@wOrderId" />
+            </li>
+    </ol> 
+    <input type="submit" value="Insert" title="Insert" @if(disableButton==true){<text>disabled="disabled"</text>} />
+</form> 
+    </fieldset>
+
+     <fieldset>
+   <legend>Available</legend>
+    @grid.GetHtml(tableStyle: "grid",
+                headerStyle: "head",
+                alternatingRowStyle: "alt",
+                columns: grid.Columns(
+                        grid.Column(format: @<a href="EditWidget.cshtml?id=@item.wId">Edit</a>),
+                        grid.Column("wName", "Name", style: "product"),
+                        grid.Column("Section",format: @<span>@item.sName.ToString().Replace("rc","")</span>),
+                        grid.Column("wOrderId", "Order Id"),
+                        grid.Column(format: @<a href="WidgetsInSection.cshtml?pId=@pageId&pName=@pageName&deleteId=@item.Id" onclick="return confirm('Are you sure you want to delete ?')">Delete</a>)
+                                    )
+                            )
+
+</fieldset> 

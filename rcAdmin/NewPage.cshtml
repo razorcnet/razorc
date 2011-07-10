@@ -1,0 +1,93 @@
+﻿@{
+
+    Page.Title = "Create new page";
+    var pName = "";
+    var pTitle = "Page Title Here";
+    var pText = "Text of the page";
+    var mTitle = "Meta tag: Title";
+    var mDescription = "Meta tag: Description";
+    var mKeywords = "Meta tag: Keywords";
+    var pMasterPage = "";
+    var pEditDate = DateTime.Now;
+    var pBody = true;
+
+    var errMSG = "";
+    
+    //List all Layout files
+    DirectoryInfo dirInfo = new DirectoryInfo(Server.MapPath("~/rcLayouts"));  
+    FileInfo[] fileInfo = dirInfo.GetFiles("_*.cshtml", SearchOption.TopDirectoryOnly);
+         
+    
+    if (IsPost){
+
+        pName = Request["pName"];
+        pMasterPage = Request["pMasterPage"];
+        
+        if(pName.IsEmpty()){
+            errMSG = "Please Enter Page Name </br>";
+            
+        }
+        
+        if(pMasterPage.IsEmpty()){
+            errMSG += "Please Select Layout For Your New Page</br>";
+            
+        }
+
+        if (errMSG.IsEmpty())
+        {
+        var db = Database.Open("razorC");
+        var sqlIN = "Insert into rc_Pages "
+            + "(pName, pTitle, pText, mTitle, mDescription, mKeywords, pMasterPage, pEditDate, pBody) values "
+            + "(@0, @1, @2, @3, @4, @5, @6, @7, @8)";
+
+        try
+        {
+        db.Execute(sqlIN, pName, pTitle, pText, mTitle, mDescription, mKeywords, pMasterPage, pEditDate, pBody);
+        Response.Redirect("Editpage.cshtml?id=" + db.GetLastInsertId());
+        }
+        catch (Exception ex)
+        {
+
+            errMSG = ex.Message.ToString();
+        }
+        
+                
+        }
+        
+        
+    }
+}
+
+@section head {
+
+}
+
+@if (!errMSG.IsEmpty())
+{
+<div> 
+@Html.Raw(errMSG)
+</div>
+}
+<form method="post" action="">
+ <fieldset>
+        <legend>New Page</legend>
+        <ol>
+            <li >
+                <label for="pName">Name:</label>
+                <input type="text" name="pName" id="pName" value="@pName" maxlength="100" />
+                </li>
+                <li>
+                <label for="pMasterPage">Layout:</label>
+                <select id="pMasterPage" name="pMasterPage">
+               @foreach (var f in fileInfo )
+               {
+                <option value="@f.Name" @if(pMasterPage==f.Name){<text>selected="selected"</text>}>@f.Name</option>
+                }
+                </select>
+            </li>
+        </ol>
+          <p class="form-actions">
+            <input type="submit" value="Insert" title="Insert" />
+        </p>
+</fieldset>
+</form>
