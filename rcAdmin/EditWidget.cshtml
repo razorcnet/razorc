@@ -1,0 +1,118 @@
+﻿@{
+    
+    
+    //List all Layout files
+    DirectoryInfo dirInfo = new DirectoryInfo(Server.MapPath("~/rcTemplates"));
+    FileInfo[] fileInfo = dirInfo.GetFiles("_*.cshtml", SearchOption.TopDirectoryOnly);
+
+    var Id = Request["id"];
+    var errMSG = "";
+
+    var db = Database.Open("razorC");
+    var sqlSelect = " Select * from rc_Widgets where Id=@0";
+    var data = db.QuerySingle(sqlSelect, Id);
+
+    var wName = data.wName;
+    var wTitle = data.wTitle;
+    var wText = data.wText;
+    var wEditDate = data.wEditDate;
+    var wFile = data.wFile;
+
+    if (IsPost)
+    {
+
+        wName = Request["wName"];
+        wTitle = Request["wTitle"];
+        wText = Request.Unvalidated("wText");
+        wEditDate = DateTime.Now.ToString();
+        wFile = Request["wFile"];
+
+        var sqlUpdate = "Update rc_Widgets set "
+            + "wTitle=@0, wText=@1, wEditdate=@2, wFile=@3 "
+            + "where Id=@4";
+
+        try
+        {
+            db.Execute(sqlUpdate, wTitle, wText, wEditDate, wFile, Id);
+            errMSG = "Data saved !";
+        }
+        catch (Exception ex)
+        {
+
+            errMSG = ex.Message.ToString();
+        }
+
+    }
+    
+}
+
+@section head {
+    <!-- You can use any editor you want. We decided to use TinyMCE visit http://tinymce.moxiecode.com/ for licence and help -->
+    <!-- TinyMCE -->
+    <script src="../tiny_mce/tiny_mce.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        var language = navigator.userLanguage;
+        tinyMCE.init({
+            relative_urls: false,
+            // General options
+            mode: "textareas",
+            theme: "advanced",
+            height: "400",
+            plugins: "safari,pagebreak,style,layer,table,save,advhr,advimage,advlink,emotions,iespell,inlinepopups,insertdatetime,preview,media,searchreplace,print,contextmenu,paste,directionality,fullscreen,noneditable,visualchars,nonbreaking,xhtmlxtras,template",
+            extended_valid_elements: "div[*],iframe[src|width|height|name|align]",
+
+            // Theme options
+            theme_advanced_buttons1: "save,newdocument,|,bold,italic,underline,strikethrough,|,justifyleft,justifycenter,justifyright,justifyfull,styleselect,formatselect,fontselect,fontsizeselect",
+            theme_advanced_buttons2: "cut,copy,paste,pastetext,pasteword,|,search,replace,|,bullist,numlist,|,outdent,indent,blockquote,|,undo,redo,|,link,unlink,anchor,image,netImageBrowser,cleanup,help,code,|,insertdate,inserttime,preview,|,forecolor,backcolor",
+            theme_advanced_buttons3: "tablecontrols,|,hr,removeformat,visualaid,|,sub,sup,|,charmap,emotions,iespell,media,advhr,|,print,|,ltr,rtl,|,fullscreen",
+            theme_advanced_buttons4: "insertlayer,moveforward,movebackward,absolute,|,styleprops,|,cite,abbr,acronym,del,ins,attribs,|,visualchars,nonbreaking,template,pagebreak",
+            theme_advanced_toolbar_location: "top",
+            theme_advanced_toolbar_align: "left",
+            theme_advanced_statusbar_location: "bottom",
+            theme_advanced_resizing: true,
+
+            // Drop lists for link/image/media/template dialogs
+            template_external_list_url: "lists/template_list.js",
+            external_link_list_url: "lists/link_list.js",
+            external_image_list_url: "lists/image_list.js",
+            media_external_list_url: "lists/media_list.js"
+        });
+
+    </script>
+<!-- /TinyMCE -->
+}
+
+<form action="" method="post">
+ <fieldset>
+        <legend>Edit Widget</legend>
+        @errMSG
+        Edited: @wEditDate 
+        <ol>
+                <li>
+                <label for="wName">Name:</label>
+                <input type="text" name="wName" id="wName" value="@wName" readonly="readonly" maxlength="100" />
+                </li>
+
+               <li>
+                <label for="wFile">Template:</label>
+                <select id="wFile" name="wFile">
+               @foreach (var f in fileInfo)
+               {
+                <option value="@f.Name" @if (wFile == f.Name)
+                                        {<text>selected="selected"</text>}>@f.Name</option>
+               }
+                </select>
+            </li>
+
+                <li>
+                <label for="wTitle">Title:</label>
+                <input type="text" name="wTitle" id="wTitle" value="@wTitle"  maxlength="100" />
+                </li>
+               
+            </ol>
+            <textarea id="wText" name="wText" cols="80" rows="15">@wText</textarea>
+     <input type="submit" name="btnUpdate" value="Update" />
+       
+</fieldset> 
+
+</form>

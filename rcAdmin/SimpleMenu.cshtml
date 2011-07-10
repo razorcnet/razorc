@@ -1,0 +1,115 @@
+﻿@{
+    Page.Title = "Simple Menu";
+    var db = Database.Open("razorC");
+
+    var errMsg = "";
+    var smName = Request["smName"];
+    var smURL = Request["smURL"];
+    var smOrderId = Request["smOrderId"];
+    var smTarget = Request["smTarget"];
+    
+    //delete record 
+    var deleteID = Request["id"];
+    if (!deleteID.IsEmpty())
+    {
+        var sqlDelete = "delete from rc_SimpleMenu where Id=@0";
+        db.Execute(sqlDelete, deleteID);
+        Response.Redirect("SimpleMenu");
+    }
+    
+    if (IsPost){
+                  
+        if (smName.IsEmpty()){
+            errMsg = "Please enter name<br/>";
+        }
+        if (smURL.IsEmpty())
+        {
+            errMsg += "Please enter URL<br/>";
+        }
+        if (smOrderId.IsEmpty())
+        {
+            errMsg += "Please enter order <br/>";
+        }
+        
+        //no errors = insert record
+        if (errMsg.IsEmpty())
+        {
+        var sqlInsert = "Insert into rc_SimpleMenu "
+            +"(smName, smURL, smOrderId, smTarget) values "
+            +"(@0, @1, @2, @3)";
+        try
+        {
+            db.Execute(sqlInsert, smName, smURL, smOrderId, smTarget);
+            Response.Redirect("SimpleMenu");
+        }
+        catch (Exception ex)
+        {
+            
+            errMsg = ex.Message.ToString();
+        }
+        
+        }
+        
+    }
+
+
+    var sqlSelect = "Select * from rc_SimpleMenu order by smOrderId DESC";
+    var data = db.Query(sqlSelect);
+    var grid = new WebGrid(data);
+    
+    
+}
+
+@section head {
+    
+}
+
+ <fieldset>
+   <legend>Insert</legend>
+   @if (!errMsg.IsEmpty())
+    {
+    <div> 
+        @Html.Raw(errMsg)
+    </div>
+    }
+
+     <form action="" method="post">
+       <ol>
+            <li >
+                <label for="smName">Name:</label>
+                <input type="text" name="smName" id="smName" value="@smName" maxlength="50" />
+             </li>
+             <li >
+                <label for="smURL">URL:</label>
+                <input type="text" name="smURL" id="smURL" value="@smURL" maxlength="250" />
+             </li>
+               <li >
+                <label for="smOrderId">Order:</label>
+                <input type="text" name="smOrderId" id="smOrderId" value="@smOrderId" />
+             </li>
+              <li >
+                <label for="smTarget">Target:</label>
+                  <select id="smTarget" name="smTarget">
+                      <option value="_self"  @if(smTarget=="_self"){<text>selected="selected"</text>}>Same window</option>
+                      <option value="_blank" @if(smTarget=="_blank"){<text>selected="selected"</text>}>New window</option>
+                  </select>
+             </li>
+              
+    </ol> <input type="submit" value="Insert" title="Insert" />
+</form> 
+    </fieldset>
+     <fieldset>
+   <legend>Available</legend>
+    @grid.GetHtml(tableStyle: "grid",
+                headerStyle: "head",
+                alternatingRowStyle: "alt", 
+                columns:grid.Columns(
+                    grid.Column("smName", "Name", style: "product"), 
+                    grid.Column("smURL", format:@<i>@item.smURL</i>),
+                    grid.Column("smOrderId", "Order", style: "product"),
+                    grid.Column("smTarget", "Target", style: "product"),
+                    grid.Column(format:@@<a href="SimpleMenu.cshtml?id=@item.Id" onclick="return confirm('Are you sure you want to delete ?')">Delete</a>)
+                                    )
+                            )
+
+</fieldset> 

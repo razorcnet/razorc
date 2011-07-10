@@ -1,0 +1,46 @@
+﻿@{
+    Page.Title = "Show All Widgets";
+    
+    var db = Database.Open("razorC");
+
+    //delete record 
+    var deleteID = Request["id"];
+    if (!deleteID.IsEmpty())
+    {
+        var sqlDelete = "delete from rc_Widgets where Id=@0";
+        db.Execute(sqlDelete, deleteID);
+        Response.Redirect("AllWidgets");
+    }
+    
+    
+    var qStr = "Select Id, wName, wEditDate from rc_Widgets order by wEditDate DESC";
+    var data = db.Query(qStr);
+
+    var grid = new WebGrid(source: data,
+                            rowsPerPage:20);
+
+    
+}
+
+@section head {
+
+}
+
+ <fieldset>
+        <legend>All Widgets</legend>
+<div id ="grid">
+ @grid.GetHtml( 
+                tableStyle: "grid", 
+                headerStyle: "head", 
+                alternatingRowStyle: "alt", 
+                columns: grid.Columns( 
+                    grid.Column(format:@<a href="EditWidget.cshtml?id=@item.Id">Edit</a>),
+                    grid.Column("wName", "Widget name", style: "product"), 
+                    grid.Column("wEditDate", format:@<i>@item.wEditDate</i>),
+                    grid.Column(format:@@<a href="AllWidgets.cshtml?id=@item.Id" onclick="return confirm('Are you sure you want to delete ?')">Delete</a>)
+                ) 
+            ) 
+
+
+</div>
+</fieldset> 

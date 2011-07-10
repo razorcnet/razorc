@@ -1,0 +1,89 @@
+﻿@{
+    Page.Title = "Create new widget";
+
+    var wName = "";
+    var wTitle = "Title Here";
+    var wText = "Text here";
+    var wEditDate = DateTime.Now;
+    var wFile = "";
+
+    var errMSG = "";
+
+    //List all Layout files
+    DirectoryInfo dirInfo = new DirectoryInfo(Server.MapPath("~/rcTemplates"));
+    FileInfo[] fileInfo = dirInfo.GetFiles("_*.cshtml", SearchOption.TopDirectoryOnly);
+
+
+    if (IsPost)
+    {
+
+        wName = Request["wName"];
+        wFile = Request["wFile"];
+
+        if (wName.IsEmpty())
+        {
+            errMSG = "Please Enter Name </br>";
+
+        }
+
+        if (wFile.IsEmpty())
+        {
+            errMSG += "Please Select Template</br>";
+
+        }
+
+        if (errMSG.IsEmpty())
+        {
+            var db = Database.Open("razorC");
+            var sqlIN = "Insert into rc_Widgets "
+                + "(wName, wTitle, wText, wEditDate, wFile) values "
+                + "(@0, @1, @2, @3, @4)";
+
+            try
+            {
+                db.Execute(sqlIN, wName, wTitle, wText, wEditDate, wFile );
+                Response.Redirect("EditWidget.cshtml?id=" + db.GetLastInsertId());
+            }
+            catch (Exception ex)
+            {
+                errMSG = ex.Message.ToString();
+            }
+        }
+
+
+    }
+}
+
+@section head {
+    
+}
+
+@if (!errMSG.IsEmpty())
+{
+<div> 
+@Html.Raw(errMSG)
+</div>
+}
+<form method="post" action="">
+ <fieldset>
+        <legend>New Widget</legend>
+        <ol>
+            <li >
+                <label for="wName">Name:</label>
+                <input type="text" name="wName" id="pName" value="@wName" maxlength="100" />
+                </li>
+                <li>
+                <label for="wFile">Template:</label>
+                <select id="wFile" name="wFile">
+               @foreach (var f in fileInfo )
+               {
+                <option value="@f.Name" @if(wFile==f.Name){<text>selected="selected"</text>}>@f.Name</option>
+                }
+                </select>
+            </li>
+        </ol>
+          <p class="form-actions">
+            <input type="submit" value="Insert" title="Insert" />
+        </p>
+</fieldset>
+</form>

@@ -1,0 +1,46 @@
+﻿@{
+    Page.Title = "Show all pages";
+    var db = Database.Open("razorC");
+
+    //delete record 
+    var deleteID = Request["id"];
+    if (!deleteID.IsEmpty())
+    {
+        var sqlDelete = "delete from rc_Pages where pId=@0";
+        db.Execute(sqlDelete, deleteID);
+        Response.Redirect("AllPages");
+    }
+    
+    
+    var qStr = "Select pId, pName, pEditDate from rc_Pages order by pEditDate DESC";
+    var data = db.Query(qStr);
+
+    var grid = new WebGrid(source: data,
+                            rowsPerPage:20);
+
+    
+}
+
+@section head {
+
+}
+
+ <fieldset>
+        <legend>All Pages</legend>
+<div id ="grid">
+ @grid.GetHtml( 
+                tableStyle: "grid", 
+                headerStyle: "head", 
+                alternatingRowStyle: "alt", 
+                columns: grid.Columns( 
+                    grid.Column(format:@<a href="EditPage.cshtml?id=@item.pId">Edit</a>),
+                    grid.Column(format: @<a href="WidgetsInSection.cshtml?pid=@item.pId&pName=@item.pName">Widgets</a>),
+                    grid.Column("pName", "Page name", style: "product"),
+                    grid.Column("pEditDate", format: @<i>@item.pEditDate</i>),
+                    grid.Column(format: @@<a href="AllPages.cshtml?id=@item.pId" onclick="return confirm('Are you sure you want to delete ?')">Delete</a>)
+                ) 
+            ) 
+
+
+</div>
+</fieldset> 
