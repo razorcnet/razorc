@@ -21,7 +21,6 @@
     Page.mDescription = data.mDescription;
 
     //this will select all widgets for selected page. widgets will be loaded to sections rcTOP, rcLeft, rcRight, rcBottom
-    // var sectionName = "";
     var selectWidgets = "Select rc_PageWidget.pId, rc_PageWidget.sName, rc_PageWidget.wId, rc_Widgets.wTitle, rc_Widgets.wText, rc_Widgets.wFile "
                         + "from rc_PageWidget inner join rc_Widgets on rc_PageWidget.wId = rc_Widgets.Id "
                         + "where rc_PageWidget.pId=@0 order by sName, rc_PageWidget.wOrderId";
