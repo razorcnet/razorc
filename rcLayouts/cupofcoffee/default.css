@@ -17,7 +17,6 @@ body {
 h1, h2, h3 {
 	margin: 0;
 	padding: 0;
-	text-transform: lowercase;
 	font-family: Georgia, "Times New Roman", Times, serif;
 	font-weight: normal;
 	color: #811305;
