@@ -57,9 +57,10 @@
 }
 
 @section head {
-    <!-- You can use any editor you want. We decided to use TinyMCE visit http://tinymce.moxiecode.com/ for licence and help -->
-    <!-- TinyMCE -->
-    <script src="../tiny_mce/tiny_mce.js" type="text/javascript"></script>
+<!-- You can use any editor you want. We decided to use TinyMCE visit http://tinymce.moxiecode.com/ for licence and help -->
+<!-- TinyMCE -->
+ <script src="../tiny_mce/tiny_mce_src.js" type="text/javascript"></script>
+
     <script type="text/javascript">
         var language = navigator.userLanguage;
         tinyMCE.init({
@@ -68,7 +69,7 @@
             mode: "textareas",
             theme: "advanced",
             height: "400",
-            plugins: "safari,pagebreak,style,layer,table,save,advhr,advimage,advlink,emotions,iespell,inlinepopups,insertdatetime,preview,media,searchreplace,print,contextmenu,paste,directionality,fullscreen,noneditable,visualchars,nonbreaking,xhtmlxtras,template",
+            plugins: "safari,pagebreak,style,layer,table,save,advhr,advimage,advlink,emotions,iespell,inlinepopups,insertdatetime,preview,media,searchreplace,print,contextmenu,paste,directionality,fullscreen,noneditable,visualchars,nonbreaking,xhtmlxtras,template,netImageBrowser",
             extended_valid_elements: "div[*],iframe[src|width|height|name|align]",
 
             // Theme options
