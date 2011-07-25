@@ -56,7 +56,7 @@ Released for free under MS-PL
        foreach (var row in widgets)
        {
            if (row.sName == sectionName) { 
-           Write(RenderPage("~/rcTemplates/" + wFile , row)); 
+           Write(RenderPage("~/rcTemplates/" + row.wFile , row)); 
            }
        }
        
