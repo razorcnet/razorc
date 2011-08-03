@@ -65,7 +65,7 @@ a:hover {
 	height: 276px;
 	margin: 0px auto;
 	padding: 0px 0px 0px 0px;
-	background: url(/rcLayouts/vegetable/images/img01.jpg) no-repeat left top;
+	background: url(images/img01.jpg) no-repeat left top;
 }
 
 /* Logo */
@@ -125,7 +125,7 @@ a:hover {
 	width: 220px;
 	padding: 8px 5px 6px 5px;
 	border: none;
-	background: #FFFFFF url(/rcLayouts/vegetable/images/img02.jpg) no-repeat left top;
+	background: #FFFFFF url(images/img02.jpg) no-repeat left top;
 	text-transform: lowercase;
 	font: normal 11px Arial, Helvetica, sans-serif;
 	color: #000000;
@@ -255,7 +255,7 @@ a:hover {
 	height: 23px;
 	margin-right: 10px;
 	padding: 2px 0px 0px 0px;
-	background: url(/rcLayouts/vegetable/images/img04.jpg) no-repeat left top;
+	background: url(images/img04.jpg) no-repeat left top;
 	text-align: center;
 	text-transform: uppercase;
 	font-size: 10px;
@@ -269,7 +269,7 @@ a:hover {
 	width: 120px;
 	height: 23px;
 	padding: 2px 0px 0px 0px;
-	background: url(/rcLayouts/vegetable/images/img04.jpg) no-repeat left top;
+	background: url(images/img04.jpg) no-repeat left top;
 	text-align: center;
 	text-transform: uppercase;
 	font-size: 10px;
@@ -311,7 +311,7 @@ a:hover {
 
 #sidebar li li a {
 	padding: 0px 0px 0px 15px;
-	background: url(/rcLayouts/vegetable/images/img03.jpg) no-repeat left 5px;
+	background: url(images/img03.jpg) no-repeat left 5px;
 }
 
 #sidebar li li span {

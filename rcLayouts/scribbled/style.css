@@ -70,11 +70,11 @@ img.aligncenter {
 #wrapper {
 	margin: 0px;
 	padding: 0px;
-	background: url(/rcLayouts/scribbled/images/img02a.jpg) repeat-x left bottom;
+	background: url(images/img02a.jpg) repeat-x left bottom;
 }
 
 #wrapper-bgbtm {
-	background: url(/rcLayouts/scribbled/images/img01.jpg) repeat-x left top;
+	background: url(images/img01.jpg) repeat-x left top;
 }
 
 /* Header */
@@ -283,7 +283,7 @@ img.aligncenter {
 
 #sidebar li li {
 	line-height: 35px;
-	background: url(/rcLayouts/scribbled/images/img07.jpg) repeat-x left bottom;
+	background: url(images/img07.jpg) repeat-x left bottom;
 }
 
 #sidebar li li span {
@@ -298,7 +298,7 @@ img.aligncenter {
 	height: 35px;
 	margin-bottom: 20px;
 	padding: 5px 0 0 20px;
-	background: url(/rcLayouts/scribbled/images/img06.jpg) no-repeat left top;
+	background: url(images/img06.jpg) no-repeat left top;
 	letter-spacing: -1px;
 	font-size: 20px;
 	font-weight: normal;
@@ -366,15 +366,15 @@ img.aligncenter {
 #bg1 {
 	width: 1000px;
 	margin: 0px auto;
-	background: url(/rcLayouts/scribbled/images/img04.jpg) repeat-y center top;
+	background: url(images/img04.jpg) repeat-y center top;
 }
 
 #bg2 {
-	background: url(/rcLayouts/scribbled/images/img03.jpg) no-repeat center top;
+	background: url(images/img03.jpg) no-repeat center top;
 }
 
 #bg3 {
 	width: 870px;
 	padding: 0px 50px 0px 80px;
-	background: url(/rcLayouts/scribbled/images/img05.jpg) no-repeat center bottom;
+	background: url(images/img05.jpg) no-repeat center bottom;
 }

@@ -6,7 +6,13 @@
     //display news from razorC.net - no ads just security and available site updates
     XmlTextReader reader = new XmlTextReader("http://www.razorc.net/rss");
     DataSet ds = new DataSet();
-    ds.ReadXml(reader) ;
+    try
+    {
+        ds.ReadXml(reader) ;
+    }
+    catch (Exception)
+    {}
+    
     
     }
 
@@ -16,9 +22,12 @@
 
  <fieldset>
    <legend>Whats New</legend>
-   @foreach (DataRow  row in ds.Tables[2].Rows)
+   @if (ds.Tables.Count  > 0)
    {
+       foreach (DataRow row in ds.Tables[2].Rows)
+       {
        <p><a href="@row[2]"><b>@row[0]</b></a></p>
        <p>@row[1]</p>
+       }
    }
 </fieldset> 

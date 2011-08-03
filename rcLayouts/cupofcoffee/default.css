@@ -121,7 +121,7 @@ input, textarea, select {
 	float: left;
 	margin-right: 3px;
 	padding: 0 20px;
-	background: url(/rcLayouts/cupofcoffee/images/img03.gif) no-repeat right 60%;
+	background: url(images/img03.gif) no-repeat right 60%;
 	text-decoration: none;
 	text-transform: capitalize;
 	font: 12px Tahoma, Arial, Helvetica, sans-serif;
@@ -144,7 +144,7 @@ input, textarea, select {
 	width: 939px;
 	height: 273px;
 	margin-left: 10px;
-	background: url(/rcLayouts/cupofcoffee/images/img02.jpg) no-repeat left top;
+	background: url(images/img02.jpg) no-repeat left top;
 }
 
 #logo h1, #logo h2 {
@@ -183,7 +183,7 @@ input, textarea, select {
 #wrapper {
 	width: 960px;
 	margin: 0 auto;
-	background: url(/rcLayouts/cupofcoffee/images/img01.gif) repeat-y left top;
+	background: url(images/img01.gif) repeat-y left top;
 }
 
 /* Page */
