@@ -127,7 +127,8 @@
                             src="images/edit.gif" alt="Edit" class="rcGC" /></a>),
                         grid.Column("wName", "Name", style: "rcGB"),
                         grid.Column("Section",format: @<span>@item.sName.ToString().Replace("rc","")</span>),
-                        grid.Column("wOrderId", "Order Id"),
+                        grid.Column("Order Id",format:@<span class="rcGB"><a href="ChangeOrderId.cshtml?tn=rc_pagewidget&cv=1&id=@item.Id"><img
+                        src="images/up.gif" alt="up" class="rcGC"/></a><a href="ChangeOrderId.cshtml?tn=rc_pagewidget&cv=-1&id=@item.Id"><img src="images/down.gif" alt="down" class="rcGC" style="margin-right:10px" /></a>@item.wOrderId</span> ),
                         grid.Column(format: @<a href="WidgetsInSection.cshtml?pId=@pageId&pName=@pageName&deleteId=@item.Id" onclick="return confirm('Are you sure you want to delete ?')" title="Delete"><img
                             src="images/delete.gif" alt="Delete" class="rcGC" /></a>)
                                     )
