@@ -22,10 +22,6 @@
         if (smName.IsEmpty()){
             errMsg = "Please enter name<br/>";
         }
-        if (smURL.IsEmpty())
-        {
-            errMsg += "Please enter URL<br/>";
-        }
         if (smOrderId.IsEmpty())
         {
             errMsg += "Please enter order <br/>";
@@ -34,6 +30,14 @@
         //no errors = insert record
         if (errMsg.IsEmpty())
         {
+            
+            
+            if (smURL.IsEmpty()){
+            smURL="~/" + Request["smPage"];
+            if (smURL.ToLower() == "~/default") { smURL = "~/"; }
+            }
+            
+            
         var sqlInsert = "Insert into rc_SimpleMenu "
             +"(smName, smURL, smOrderId, smTarget) values "
             +"(@0, @1, @2, @3)";
@@ -57,6 +61,9 @@
     var data = db.Query(sqlSelect);
     var grid = new WebGrid(data);
     
+    //select pages 
+    var sqlPages = "Select pName from rc_Pages order by pName";
+    var pages = db.Query(sqlPages);
     
 }
 
@@ -80,7 +87,17 @@
                 <input type="text" name="smName" id="smName" value="@smName" maxlength="50" />
              </li>
              <li >
-                <label for="smURL">URL:</label>
+                <label for="smPage">Select Page:</label>
+                 <select id="smPage" name="smPage">
+                 @foreach (var row in pages)
+                 {
+                      <option value="@row.pName" @if(Request["smPage"]==row.pName){<text>selected="selected"</text>}>@row.pName</option>
+                 }
+                    
+                 </select>
+             </li>
+             <li >
+                <label for="smURL">or enter URL:</label>
                 <input type="text" name="smURL" id="smURL" value="@smURL" maxlength="250" />
              </li>
                <li >
@@ -106,7 +123,9 @@
                 columns:grid.Columns(
                     grid.Column("smName", "Name", style: "rcGB"), 
                     grid.Column("URL", format:@<i>@item.smURL</i>),
-                    grid.Column("smOrderId", "Order"),
+                    grid.Column("Order",format:@<span class="rcGB"><a href="ChangeOrderId.cshtml?tn=rc_simplemenu&cv=1&id=@item.Id"><img
+                        src="images/up.gif" alt="up" class="rcGC"/></a>
+                    <a href="ChangeOrderId.cshtml?tn=rc_simplemenu&cv=-1&id=@item.Id"><img src="images/down.gif" alt="down" class="rcGC" style="margin-right:10px" /></a>@item.smOrderId</span>),
                     grid.Column("smTarget", "Target"),
                     grid.Column(format:@<a href="SimpleMenu.cshtml?id=@item.Id" onclick="return confirm('Are you sure you want to delete ?')" title="Delete"><img
                         src="images/delete.gif" class="rcGC" alt="Delete" /></a>)
