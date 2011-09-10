@@ -100,15 +100,16 @@
     </fieldset>
      <fieldset>
    <legend>Available</legend>
-    @grid.GetHtml(tableStyle: "grid",
+    @grid.GetHtml(tableStyle: "rcGrid",
                 headerStyle: "head",
                 alternatingRowStyle: "alt", 
                 columns:grid.Columns(
-                    grid.Column("smName", "Name", style: "product"), 
-                    grid.Column("smURL", format:@<i>@item.smURL</i>),
-                    grid.Column("smOrderId", "Order", style: "product"),
-                    grid.Column("smTarget", "Target", style: "product"),
-                    grid.Column(format:@@<a href="SimpleMenu.cshtml?id=@item.Id" onclick="return confirm('Are you sure you want to delete ?')">Delete</a>)
+                    grid.Column("smName", "Name", style: "rcGB"), 
+                    grid.Column("URL", format:@<i>@item.smURL</i>),
+                    grid.Column("smOrderId", "Order"),
+                    grid.Column("smTarget", "Target"),
+                    grid.Column(format:@<a href="SimpleMenu.cshtml?id=@item.Id" onclick="return confirm('Are you sure you want to delete ?')" title="Delete"><img
+                        src="images/delete.gif" class="rcGC" alt="Delete" /></a>)
                                     )
                             )
 

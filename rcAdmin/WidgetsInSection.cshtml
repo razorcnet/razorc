@@ -119,15 +119,17 @@
 
      <fieldset>
    <legend>Available</legend>
-    @grid.GetHtml(tableStyle: "grid",
+    @grid.GetHtml(tableStyle: "rcGrid",
                 headerStyle: "head",
                 alternatingRowStyle: "alt",
                 columns: grid.Columns(
-                        grid.Column(format: @<a href="EditWidget.cshtml?id=@item.wId">Edit</a>),
-                        grid.Column("wName", "Name", style: "product"),
+                        grid.Column(format: @<a href="EditWidget.cshtml?id=@item.wId" title="Edit Widget"><img
+                            src="images/edit.gif" alt="Edit" class="rcGC" /></a>),
+                        grid.Column("wName", "Name", style: "rcGB"),
                         grid.Column("Section",format: @<span>@item.sName.ToString().Replace("rc","")</span>),
                         grid.Column("wOrderId", "Order Id"),
-                        grid.Column(format: @<a href="WidgetsInSection.cshtml?pId=@pageId&pName=@pageName&deleteId=@item.Id" onclick="return confirm('Are you sure you want to delete ?')">Delete</a>)
+                        grid.Column(format: @<a href="WidgetsInSection.cshtml?pId=@pageId&pName=@pageName&deleteId=@item.Id" onclick="return confirm('Are you sure you want to delete ?')" title="Delete"><img
+                            src="images/delete.gif" alt="Delete" class="rcGC" /></a>)
                                     )
                             )
 
