@@ -1,4 +1,5 @@
-﻿@{
+﻿@using System.Text.RegularExpressions;
+@{
     var pageId = Request["pId"];
     var pageName = Request["pName"];
 
@@ -24,7 +25,29 @@
         db.Execute(sqlDelete, deleteID);
         Response.Redirect("WidgetsInSection.cshtml?pId="+pageId+"&pName="+pageName );
     }
-        
+
+
+    // read layout page and find all available zones
+    var sqlMaster = "Select pMasterPage from rc_Pages where pId=@0";
+    var masterPage = db.QueryValue(sqlMaster, pageId);
+
+    //read master and find zones
+    StreamReader textFile = new StreamReader(Server.MapPath("~/rcLayouts/" + masterPage));
+
+    string fileContents = textFile.ReadToEnd();
+    textFile.Close();
+
+    System.Collections.ArrayList availZones = new System.Collections.ArrayList();
+    string pattern = "@RenderSection\\(\"rc[\\w]*";
+
+    foreach (Match m in Regex.Matches(fileContents, pattern))
+    {
+        availZones.Add(m.ToString().Replace("@RenderSection(\"", ""));
+    }
+    
+    
+    
+      
     if (IsPost)
     {
 
@@ -60,11 +83,8 @@
             }
 
         }
-
-
-    
-
     }
+
 
     var sqlSelect = "Select rc_PageWidget.*, rc_Widgets.wName from rc_Pagewidget "
                 + "inner join rc_Widgets on rc_PageWidget.wId = rc_Widgets.ID "
@@ -93,10 +113,10 @@
             <li >
                 <label for="sName">Section name:</label>
                 <select id="sName" name="sName" >
-                      <option value="rcTop" @if (sName == "rcTop"){<text>selected="selected"</text>}>Top</option>
-                      <option value="rcLeft"  @if (sName == "rcLeft"){<text>selected="selected"</text>}>Left</option>
-                      <option value="rcRight" @if (sName == "rcRight"){<text>selected="selected"</text>}>Right</option>
-                      <option value="rcBottom" @if (sName == "rcBottom"){<text>selected="selected"</text>} >Bottom</option>
+                @foreach (var zone in availZones)
+                {
+                    <option value="@zone" @if(sName==zone.ToString()){<text>selected="selected"</text>}>@zone.ToString().Replace("rc","")</option>
+                }
                   </select>
              </li>
              <li >
