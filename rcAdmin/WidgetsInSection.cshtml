@@ -44,10 +44,11 @@
     {
         availZones.Add(m.ToString().Replace("@RenderSection(\"", ""));
     }
-    
-    
-    
-      
+    //should list only unique zones, ex.: if zones are inside IF will create duplicates, so :
+    object[] arr = availZones.ToArray();
+    var distZones = arr.Distinct();
+        
+          
     if (IsPost)
     {
 
@@ -86,7 +87,7 @@
     }
 
 
-    var sqlSelect = "Select rc_PageWidget.*, rc_Widgets.wName from rc_Pagewidget "
+    var sqlSelect = "Select rc_PageWidget.*, rc_Widgets.wName, rc_Widgets.wFile from rc_Pagewidget "
                 + "inner join rc_Widgets on rc_PageWidget.wId = rc_Widgets.ID "
                 + "where pId= @0 order by sName ASC, wOrderId DESC";
 
@@ -113,11 +114,11 @@
             <li >
                 <label for="sName">Section name:</label>
                 <select id="sName" name="sName" >
-                @foreach (var zone in availZones)
+                @foreach (var zone in distZones)
                 {
-                    <option value="@zone" @if(sName==zone.ToString()){<text>selected="selected"</text>}>@zone.ToString().Replace("rc","")</option>
+                    <option value="@zone" @if(sName==zone.ToString()){<text>selected="selected"</text>}>@rcFunctions.CleanRCNames(@zone.ToString())</option>
                 }
-                  </select>
+                  </select> <img src="images/help.gif" alt="help" title="Select section of the page where you want to insert the widget" />
              </li>
              <li >
                 <label for="wId">Widget:</label>
@@ -126,11 +127,11 @@
                  {
                       <option value="@row.Id" @if (wId.AsInt() == row.Id){<text>selected="selected"</text>}>@row.wName</option>
                  }
-                 </select>
+                 </select> <img src="images/help.gif" alt="help" title="Select widget that will be inserted to selected section of the page" />
              </li>
              <li >
                 <label for="wOrderId">Order Id:</label>
-                <input type="text" name="wOrderId" id="wOrderId" value="@wOrderId" />
+                <input type="text" name="wOrderId" id="wOrderId" value="@wOrderId" /> <img src="images/help.gif" alt="help" title="Higher the number , higher the position of the widget on page" />
             </li>
     </ol> 
     <input type="submit" value="Insert" title="Insert" @if(disableButton==true){<text>disabled="disabled"</text>} />
@@ -143,14 +144,12 @@
                 headerStyle: "head",
                 alternatingRowStyle: "alt",
                 columns: grid.Columns(
-                        grid.Column(format: @<a href="EditWidget.cshtml?id=@item.wId" title="Edit Widget"><img
-                            src="images/edit.gif" alt="Edit" class="rcGC" /></a>),
-                        grid.Column("wName", "Name", style: "rcGB"),
-                        grid.Column("Section",format: @<span>@item.sName.ToString().Replace("rc","")</span>),
-                        grid.Column("Order Id",format:@<span class="rcGB"><a href="ChangeOrderId.cshtml?tn=rc_pagewidget&cv=1&id=@item.Id"><img
-                        src="images/up.gif" alt="up" class="rcGC"/></a><a href="ChangeOrderId.cshtml?tn=rc_pagewidget&cv=-1&id=@item.Id"><img src="images/down.gif" alt="down" class="rcGC" style="margin-right:10px" /></a>@item.wOrderId</span> ),
-                        grid.Column(format: @<a href="WidgetsInSection.cshtml?pId=@pageId&pName=@pageName&deleteId=@item.Id" onclick="return confirm('Are you sure you want to delete ?')" title="Delete"><img
-                            src="images/delete.gif" alt="Delete" class="rcGC" /></a>)
+                         grid.Column(format: @<text>@rcHelpers.EditWidgetImg(item.wId, item.wFile)</text>),
+                         grid.Column("wName", "Name", style: "rcGB"),
+                         grid.Column("Section", format: @<span>@item.sName.ToString().Replace("rc", "")</span>),
+                         grid.Column("Order Id", format: @<span class="rcGB"><a href="ChangeOrderId.cshtml?tn=rc_pagewidget&cv=1&id=@item.Id"><img
+                        src="images/up.gif" alt="up" class="rcGC"/></a><a href="ChangeOrderId.cshtml?tn=rc_pagewidget&cv=-1&id=@item.Id"><img src="images/down.gif" alt="down" class="rcGC" style="margin-right:10px" /></a>@item.wOrderId</span>),
+                         grid.Column(format: @<text>@rcHelpers.DeleteWidgetInPage(Convert.ToInt32(pageId), pageName, item.Id, item.wFile)</text>)
                                     )
                             )
 

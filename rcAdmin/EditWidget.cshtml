@@ -24,7 +24,7 @@
         wName = Request["wName"];
         wTitle = Request["wTitle"];
         wText = Request.Unvalidated("wText");
-        wEditDate = DateTime.Now.ToString();
+        wEditDate = DateTime.Now;
         wFile = Request["wFile"];
 
         var sqlUpdate = "Update rc_Widgets set "
@@ -60,7 +60,7 @@
             theme: "advanced",
             height: "400",
             plugins: "safari,pagebreak,style,layer,table,save,advhr,advimage,advlink,emotions,iespell,inlinepopups,insertdatetime,preview,media,searchreplace,print,contextmenu,paste,directionality,fullscreen,noneditable,visualchars,nonbreaking,xhtmlxtras,template,netImageBrowser",
-            extended_valid_elements: "div[*],iframe[src|width|height|name|align]",
+            extended_valid_elements: "div[*],span[*],iframe[src|width|height|name|align]",
 
             // Theme options
             theme_advanced_buttons1: "save,newdocument,|,bold,italic,underline,strikethrough,|,justifyleft,justifycenter,justifyright,justifyfull,styleselect,formatselect,fontselect,fontsizeselect",
@@ -91,7 +91,7 @@
         <ol>
                 <li>
                 <label for="wName">Name:</label>
-                <input type="text" name="wName" id="wName" value="@wName" readonly="readonly" maxlength="100" />
+                <input type="text" name="wName" id="wName" value="@wName" readonly="readonly" maxlength="100" /> <img src="images/help.gif" alt="help" title="Name of the widget. You CANNOT change this" />
                 </li>
 
                <li>
@@ -100,14 +100,14 @@
                @foreach (var f in fileInfo)
                {
                 <option value="@f.Name" @if (wFile == f.Name)
-                                        {<text>selected="selected"</text>}>@f.Name</option>
+                                        {<text>selected="selected"</text>}>@rcFunctions.CleanRCNames(f.Name)</option>
                }
-                </select>
+                </select> <img src="images/help.gif" alt="help" title="Template used to render widget - it changes the way how the content of this widget is displayed to end user. All templates are located in rcTemplates folder" />
             </li>
 
                 <li>
                 <label for="wTitle">Title:</label>
-                <input type="text" name="wTitle" id="wTitle" value="@wTitle"  maxlength="100" />
+                <input type="text" name="wTitle" id="wTitle" value="@wTitle"  maxlength="100" /> <img src="images/help.gif" alt="help" title="Title of widget. Depending on selected template it will or will not be visible to end user" />
                 </li>
                
             </ol>

@@ -21,13 +21,14 @@
     Page.mDescription = data.mDescription;
 
     //this will select all widgets for selected page. widgets will be loaded to sections rcTOP, rcLeft, rcRight, rcBottom
-    var selectWidgets = "Select rc_PageWidget.pId, rc_PageWidget.sName, rc_PageWidget.wId, rc_Widgets.wTitle, rc_Widgets.wText, rc_Widgets.wFile "
+    var selectWidgets = "Select rc_PageWidget.pId, rc_PageWidget.sName, rc_PageWidget.wId, rc_Widgets.wTitle, rc_Widgets.wText, rc_Widgets.wFile, rc_Widgets.wName "
                         + "from rc_PageWidget inner join rc_Widgets on rc_PageWidget.wId = rc_Widgets.Id "
                         + "where rc_PageWidget.pId=@0 order by sName, rc_PageWidget.wOrderId desc";
 
               
     //query based on ID of already selected page data.pID                         
     var widgets = db.Query(selectWidgets, data.pId);
+
 }
 @section head{
 @* DO NOT REMOVE THIS COPYRIGHT *@
@@ -56,7 +57,16 @@ Released for free under MS-PL
        foreach (var row in widgets)
        {
            if (row.sName == sectionName) { 
+               //standard widget : _rcName.cshtml
+               if (row.wFile.StartsWith("_rc")){
            Write(RenderPage("~/rcTemplates/" + row.wFile , row)); 
+               }
+               else
+               { //rcAddons : _addon_ADDONNAME_something.cshtml
+                   var addon = row.wFile.ToString().Replace("_addon_", "");
+                   addon = addon.Remove(addon.IndexOf("_"));
+                   Write(RenderPage("~/rcAddons/" + addon +"/" + row.wFile, row));     
+               }
            }
        }
        

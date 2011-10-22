@@ -5,7 +5,7 @@
 .rcGrid .alt { background: #fcfcfc url(grd_alt.png) repeat-x top; }
 .rcGrid .pgr {background: #424242 url(grd_pgr.png) repeat-x top; }
     .rcGrid .pgr table { margin: 5px 0; }
-    .rcGrid .pgr td { border-width: 0; padding: 0 6px; border-left: solid 1px #666; font-weight: bold; color: #fff; line-height: 12px; }   
+    .rcGrid .pgr td { border-width: 0; padding: 0 6px; border-left: solid 1px #666; font-weight: bold; color: #fff; line-height: 25px; }   
     .rcGrid .pgr a { color: #666; text-decoration: none; }
     .rcGrid .pgr a:hover { color: #000; text-decoration: none; }
     

@@ -13,7 +13,7 @@
     }
     
     
-    var qStr = "Select Id, wName, wEditDate from rc_Widgets order by wEditDate DESC";
+    var qStr = "Select Id, wName, wEditDate, wFile from rc_Widgets order by wEditDate DESC";
     var data = db.Query(qStr);
 
     var grid = new WebGrid(source: data,
@@ -33,12 +33,12 @@
                 tableStyle: "rcGrid", 
                 headerStyle: "head", 
                 alternatingRowStyle: "alt", 
+                footerStyle:"pgr",
                 columns: grid.Columns( 
-                    grid.Column(format:@<a href="EditWidget.cshtml?id=@item.Id" title="Edit Widget"><img src="images/edit.gif" class="rcGC" alt="Edit"/></a>),
+                    grid.Column(format:@<text>@rcHelpers.EditWidgetImg(item.Id,item.wFile)</text>),
                     grid.Column("wName", "Widget Name", style: "rcGB"), 
                     grid.Column("Last Edited", format:@<i>@item.wEditDate</i>),
-                    grid.Column(format:@@<a href="AllWidgets.cshtml?id=@item.Id" onclick="return confirm('Are you sure you want to delete ?')" title="Delete"><img
-                        src="images/delete.gif" alt="Delete" class="rcGC" /></a>)
+                    grid.Column(format:@<text>@rcHelpers.DeleteWidgetImg(item.Id,item.wFile)</text>)
                 ) 
             ) 
 

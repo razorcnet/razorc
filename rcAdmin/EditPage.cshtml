@@ -31,7 +31,7 @@
         mDescription = Request["mDescription"];
         mKeywords = Request["mKeywords"];
         pMasterPage = Request["pMasterPage"];
-        pEditDate = DateTime.Now.ToString();
+        pEditDate = DateTime.Now;
         pBody = false;
         if(Request["pBody"] == "on"){
             pBody = true;
@@ -70,7 +70,7 @@
             theme: "advanced",
             height: "400",
             plugins: "safari,pagebreak,style,layer,table,save,advhr,advimage,advlink,emotions,iespell,inlinepopups,insertdatetime,preview,media,searchreplace,print,contextmenu,paste,directionality,fullscreen,noneditable,visualchars,nonbreaking,xhtmlxtras,template,netImageBrowser",
-            extended_valid_elements: "div[*],iframe[src|width|height|name|align]",
+            extended_valid_elements: "div[*],span[*],iframe[src|width|height|name|align]",
 
             // Theme options
             theme_advanced_buttons1: "save,newdocument,|,bold,italic,underline,strikethrough,|,justifyleft,justifycenter,justifyright,justifyfull,styleselect,formatselect,fontselect,fontsizeselect",
@@ -101,7 +101,7 @@
         <ol>
                 <li>
                 <label for="pName">Name:</label>
-                <input type="text" name="pName" id="pName" value="@pName" readonly="readonly" maxlength="100" />
+                <input type="text" name="pName" id="pName" value="@pName" readonly="readonly" maxlength="100" /> <img src="images/help.gif" alt="help" title="Name of the page. You CANNOT change this." />
                 </li>
 
                <li>
@@ -109,18 +109,18 @@
                 <select id="pMasterPage" name="pMasterPage">
                @foreach (var f in fileInfo )
                {
-                <option value="@f.Name" @if(pMasterPage==f.Name){<text>selected="selected"</text>}>@f.Name</option>
+                <option value="@f.Name" @if(pMasterPage==f.Name){<text>selected="selected"</text>}>@rcFunctions.CleanRCNames(f.Name)</option>
                 }
-                </select>
+                </select>  <img src="images/help.gif" alt="help" title="Layout/theme that razorC will use to render the page. All layouts are in rcLayouts folder - you can change/modify them to fit your needs" />
             </li>
 
                 <li>
                 <label for="pTitle">Title:</label>
-                <input type="text" name="pTitle" id="pTitle" value="@pTitle"  maxlength="250" />
+                <input type="text" name="pTitle" id="pTitle" value="@pTitle"  maxlength="250" /> <img src="images/help.gif" alt="help" title="Title of the page. Depending on template for body section (located in rcTemplates\Body\ folder) it will or will not be visible to end user" />
                 </li>
                 <li>
                 <label for="pBody">Render Body:</label>
-                <input id="pBody" name="pBody" type="checkbox" @if (pBody){<text>checked="checked"</text>} />
+                <input id="pBody" name="pBody" type="checkbox" @if (pBody){<text>checked="checked"</text>} /> <img src="images/help.gif" alt="help" title="Should be selected for most of the pages, unless you need page that ONLY renders widgets in sections..." />
                 </li>
             </ol>
             <textarea id="pText" name="pText" cols="80" rows="15">@pText</textarea>
@@ -134,15 +134,15 @@
         <ol>
                 <li>
                 <label for="mTitle">Title:</label>
-                <input type="text" name="mTitle" id="mTitle" value="@mTitle" maxlength="100" />
+                <input type="text" name="mTitle" id="mTitle" value="@mTitle" maxlength="100" /> <img src="images/help.gif" alt="help" title="Meta tag: Title" />
                 </li>
                 <li>
                 <label for="mDescription">Description:</label>
-                <input type="text" name="mDescription" id="mDescription" value="@mDescription" maxlength="200" />
+                <input type="text" name="mDescription" id="mDescription" value="@mDescription" maxlength="200" /> <img src="images/help.gif" alt="help" title="Meta tag: Description" />
                 </li>
                 <li>
                 <label for="mKeywords">Keywords:</label>
-                <input type="text" name="mKeywords" id="mKeywords" value="@mKeywords" maxlength="200" />
+                <input type="text" name="mKeywords" id="mKeywords" value="@mKeywords" maxlength="200" /> <img src="images/help.gif" alt="help" title="Meta tag: keywords" />
                 </li>
                 </ol>
                 </fieldset>

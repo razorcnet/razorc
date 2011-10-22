@@ -84,7 +84,7 @@
        <ol>
             <li >
                 <label for="smName">Name:</label>
-                <input type="text" name="smName" id="smName" value="@smName" maxlength="50" />
+                <input type="text" name="smName" id="smName" value="@smName" maxlength="50" /> <img src="images/help.gif" alt="help" title="Name that will be visible in menu" />
              </li>
              <li >
                 <label for="smPage">Select Page:</label>
@@ -94,22 +94,22 @@
                       <option value="@row.pName" @if(Request["smPage"]==row.pName){<text>selected="selected"</text>}>@row.pName</option>
                  }
                     
-                 </select>
+                 </select> <img src="images/help.gif" alt="help" title="Select page you want to link to" />
              </li>
              <li >
                 <label for="smURL">or enter URL:</label>
-                <input type="text" name="smURL" id="smURL" value="@smURL" maxlength="250" />
+                <input type="text" name="smURL" id="smURL" value="@smURL" maxlength="250" /> <img src="images/help.gif" alt="help" title="Use this if you want to link to pages that are outside of your website ex.: http://www.razorc.net" />
              </li>
                <li >
                 <label for="smOrderId">Order:</label>
-                <input type="text" name="smOrderId" id="smOrderId" value="@smOrderId" />
+                <input type="text" name="smOrderId" id="smOrderId" value="@smOrderId" /> <img src="images/help.gif" alt="help" title="Higher the number, higher the position of item in menu" />
              </li>
               <li >
                 <label for="smTarget">Target:</label>
                   <select id="smTarget" name="smTarget">
                       <option value="_self"  @if(smTarget=="_self"){<text>selected="selected"</text>}>Same window</option>
                       <option value="_blank" @if(smTarget=="_blank"){<text>selected="selected"</text>}>New window</option>
-                  </select>
+                  </select> <img src="images/help.gif" alt="help" title="Should the page open in new window/tab or in the same window" />
              </li>
               
     </ol> <input type="submit" value="Insert" title="Insert" />
