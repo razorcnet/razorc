@@ -1,0 +1,44 @@
+﻿@helper SimpleMenu() {
+    var db = Database.Open("razorC");
+    var sqlSelect = "select * from rc_SimpleMenu order by smOrderId DESC";
+    var data = db.Query(sqlSelect);
+   <ul>
+    @foreach (var row in data)
+    {
+        if(row.smURL.ToString().StartsWith("~")){
+       <li><a href="@Href(row.smUrl)" target="@row.smTarget">@row.smName</a></li>
+        }else{
+        <li><a href="@row.smUrl" target="@row.smTarget">@row.smName</a></li>
+        }
+    }
+    </ul>
+}
+
+
+@helper EditWidgetImg(int id, string wFile)
+    {
+        if (wFile.StartsWith("_addon_")){
+        <img src="images/addon.gif" class="rcGC" alt="Add-on" title="Go to add-ons to edit"/>
+        }
+            else{
+              <a href="EditWidget.cshtml?id=@id" title="Edit Widget"><img src="images/edit.gif" class="rcGC" alt="Edit"/></a>
+            }
+}
+
+
+@helper DeleteWidgetImg(int id, string wFile)
+    {
+        if (!wFile.StartsWith("_addon_")){
+              <a href="AllWidgets.cshtml?id=@id" onclick="return confirm('Are you sure you want to delete ?')" title="Delete"><img
+                        src="images/delete.gif" alt="Delete" class="rcGC" /></a>
+        }
+}
+
+
+@helper DeleteWidgetInPage(int pageId, string pageName, int id, string wFile)
+    {
+        //if (!wFile.StartsWith("_addon_")){
+            <a href="WidgetsInSection.cshtml?pId=@pageId&pName=@pageName&deleteId=@id" onclick="return confirm('Are you sure you want to delete ?')" title="Delete"><img
+                            src="images/delete.gif" alt="Delete" class="rcGC" /></a>
+        //}
+}

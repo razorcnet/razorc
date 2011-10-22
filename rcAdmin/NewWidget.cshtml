@@ -22,13 +22,13 @@
 
         if (wName.IsEmpty())
         {
-            errMSG = "Please Enter Name </br>";
+            errMSG = "Please Enter Name <br />";
 
         }
 
         if (wFile.IsEmpty())
         {
-            errMSG += "Please Select Template</br>";
+            errMSG += "Please Select Template<br />";
 
         }
 
@@ -70,16 +70,16 @@
         <ol>
             <li >
                 <label for="wName">Name:</label>
-                <input type="text" name="wName" id="pName" value="@wName" maxlength="100" />
+                <input type="text" name="wName" id="pName" value="@wName" maxlength="100" /> <img src="images/help.gif" alt="help" title="Name of the new widget. Recommended names are in format section_name-widget_name ex.: left-quick-contact or right-ads-all-pages , this way when you will be adding widgets to sections in your page you will know which widget was designed to fit in selected section" />
                 </li>
                 <li>
                 <label for="wFile">Template:</label>
                 <select id="wFile" name="wFile">
                @foreach (var f in fileInfo )
                {
-                <option value="@f.Name" @if(wFile==f.Name){<text>selected="selected"</text>}>@f.Name</option>
+                <option value="@f.Name" @if(wFile==f.Name){<text>selected="selected"</text>}>@rcFunctions.CleanRCNames(f.Name)</option>
                 }
-                </select>
+                </select> <img src="images/help.gif" alt="help" title="Template that razorC will use to render the widget. All are located in rcTemplates, so you can create new/change them to fit your needs" />
             </li>
         </ol>
           <p class="form-actions">
