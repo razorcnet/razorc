@@ -35,11 +35,11 @@
     <li><a href="@Href("NewWidget")">Create Widget</a></li>
     <li><a href="@Href("AllWidgets")">Show All Widgets</a></li>
     </ul>
-    <a href="#">Add-ons</a>
+    <a href="http://www.razorc.net/add-ons">Add-ons</a>
     <ul>
     @foreach (var d in listAddons)
     {
-         <li><a href="@Href("~/rcAdmin/"+@d.Name)">@d.Name</a></li>
+         <li><a href="@Href("~/rcAdmin/" + @d.Name + "/default")">@d.Name</a></li>
     }
     </ul>
     </div>

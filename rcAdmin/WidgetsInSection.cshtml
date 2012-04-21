@@ -3,8 +3,9 @@
     var pageId = Request["pId"];
     var pageName = Request["pName"];
 
-    Page.Title = "Widgets In Section (page:" + pageName  + ")" ;
-    
+    Page.Title = Html.Raw("Widgets In Section (page:" + pageName + " <a href=\"EditPage.cshtml?id=" + pageId + "\" title=\"Edit Page\" >"
+        +"<img src=\"images/edit_page.gif\" alt=\"Edit\" class=\"rcGC\" /></a>)");
+            
     var errMsg = "";
     var disableButton = false;
     var wId = Request["wId"];
