@@ -2,6 +2,7 @@
     //fileManager
     Response.Cookies[Session.SessionID].Value = "True";
     Response.Cookies[Session.SessionID].Expires = DateTime.Now.AddHours(3);
+    var fbURL= System.Web.VirtualPathUtility.ToAbsolute("~/tiny_mce/plugins/FileManager/Default.aspx?sessionid=") + Session.SessionID.ToString();
     
     //List all Layout files
     DirectoryInfo dirInfo = new DirectoryInfo(Server.MapPath("~/rcLayouts"));
@@ -25,7 +26,7 @@
     var pBody = data.pBody;
 
     Page.Title = Html.Raw("razorC.net" + " <a href=\"WidgetsInSection.cshtml?pid=" + pId + "&pName=" + pName + "\" title=\"Widgets\">"
-    + "<img src=\"images/widgets.gif\" alt=\"Delete\" class=\"rcGC\" /></a>");
+    + "<img src=\"images/widgets.gif\" alt=\"Widgets\" class=\"rcGC\" /></a>");
     
     if (IsPost){
 
@@ -95,7 +96,7 @@
         });
         function filebrowser(field_name, url, type, win) {
 
-            fileBrowserURL = "@Href("~/FileManager/Default.aspx?sessionid=" + @Session.SessionID.ToString())";
+            fileBrowserURL = "@fbURL";
 
             tinyMCE.activeEditor.windowManager.open({
                 title: "Ajax File Manager",
