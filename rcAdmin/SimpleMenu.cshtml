@@ -62,7 +62,7 @@
     var grid = new WebGrid(data);
     
     //select pages 
-    var sqlPages = "Select pName from rc_Pages order by pName";
+    var sqlPages = "Select pName from rc_Pages where rcPage=1 order by pName";
     var pages = db.Query(sqlPages);
     
 }

@@ -10,6 +10,7 @@
     var pMasterPage = "";
     var pEditDate = DateTime.Now;
     var pBody = true;
+    var pBodyFile = "";
 
     var errMSG = "";
 
@@ -19,7 +20,11 @@
     DirectoryInfo dirInfo = new DirectoryInfo(Server.MapPath("~/rcLayouts"));  
     FileInfo[] fileInfo = dirInfo.GetFiles("_*.cshtml", SearchOption.TopDirectoryOnly);
 
-
+    // list all the body pages
+    DirectoryInfo dirInfoBody = new DirectoryInfo(Server.MapPath("~/rcTemplates/Body"));
+    FileInfo[] fileInfoBody = dirInfoBody.GetFiles("_*.cshtml", SearchOption.TopDirectoryOnly);
+    
+    
     var db = Database.Open("razorC");
     
     
@@ -27,6 +32,7 @@
 
         pName = Request["pName"];
         pMasterPage = Request["pMasterPage"];
+        pBodyFile = Request["pBodyFile"];
         
         if(pName.IsEmpty()){
             errMSG = "Please Enter Page Name <br />";
@@ -50,8 +56,8 @@
                     
             //copy existing page
                 var copyPage = "INSERT INTO rc_Pages " +
-                             "(pName, pTitle, pText, mTitle, mDescription, mKeywords, pMasterPage, pEditDate, pBody)" +
-                             " SELECT '" + pNameSQL + "' AS pName, pTitle, pText, mTitle, mDescription, mKeywords, pMasterPage, pEditDate, pBody " +
+                             "(pName, pTitle, pText, mTitle, mDescription, mKeywords, pMasterPage, pEditDate, pBody, rcPage, pBodyFile)" +
+                             " SELECT '" + pNameSQL + "' AS pName, pTitle, pText, mTitle, mDescription, mKeywords, pMasterPage, pEditDate, pBody, rcPage, pBodyFile " +
                             "FROM  rc_Pages AS rc_Pages_1 WHERE (pName = @0)";
                db.Execute(copyPage, fromPage);
                var copyId = db.GetLastInsertId();
@@ -69,13 +75,13 @@
             }
             else{
              var sqlIN = "Insert into rc_Pages "
-            + "(pName, pTitle, pText, mTitle, mDescription, mKeywords, pMasterPage, pEditDate, pBody) values "
-            + "(@0, @1, @2, @3, @4, @5, @6, @7, @8)";
+            + "(pName, pTitle, pText, mTitle, mDescription, mKeywords, pMasterPage, pEditDate, pBody, rcPage, pBodyFile) values "
+            + "(@0, @1, @2, @3, @4, @5, @6, @7, @8, @9, @10)";
 
 
              try
              {
-                 db.Execute(sqlIN, pName, pTitle, pText, mTitle, mDescription, mKeywords, pMasterPage, pEditDate, pBody);
+                 db.Execute(sqlIN, pName, pTitle, pText, mTitle, mDescription, mKeywords, pMasterPage, pEditDate, pBody, 1, pBodyFile);
                  Response.Redirect("Editpage.cshtml?id=" + db.GetLastInsertId());
              }
              catch (Exception ex)
@@ -91,7 +97,7 @@
 
 
     //select pages 
-    var sqlPages = "Select pName from rc_Pages order by pName";
+    var sqlPages = "Select pName from rc_Pages where rcPage=1 order by pName";
     var pages = db.Query(sqlPages);
     
 }
@@ -121,7 +127,16 @@
                {
                 <option value="@f.Name" @if(pMasterPage==f.Name){<text>selected="selected"</text>}>@rcFunctions.CleanRCNames(f.Name)</option>
                 }
-                </select> <img src="images/help.gif" alt="help" title="Select layout/theme for new page. All layouts are in rcLayouts folder - you can change/modify them to fit your needs" />
+                </select> <img src="images/help.gif" alt="help" title="Select layout/theme for new page. All layouts are in rcLayouts folder - you can add/change/modify them to fit your needs" />
+            </li>
+             <li>
+                <label for="pBodyFile">Body template:</label>
+                <select id="pBodyFile" name="pBodyFile">
+               @foreach (var f in fileInfoBody )
+               {
+                <option value="@f.Name" @if(pBodyFile==f.Name){<text>selected="selected"</text>}>@rcFunctions.CleanRCNames(f.Name)</option>
+               }
+                </select>  <img src="images/help.gif" alt="help" title="Template that will be used to render a body part of your page. All body templates are in rcTempaltes/Body folder - you can add/change/modify them to fit your needs" />
             </li>
             <li>
             <label for="fromPage">or create based on existing page:</label>

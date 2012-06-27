@@ -12,7 +12,7 @@
     }
     
     
-    var qStr = "Select pId, pName, pEditDate from rc_Pages order by pEditDate DESC";
+    var qStr = "Select pId, pName, pEditDate from rc_Pages where rcPage=1 order by pEditDate DESC";
     var data = db.Query(qStr);
 
     var grid = new WebGrid(source: data,

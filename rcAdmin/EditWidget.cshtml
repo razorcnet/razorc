@@ -23,7 +23,16 @@
 
     if (IsPost)
     {
-
+        
+        
+         if (!Request["btnUpdate"].IsEmpty()){
+       
+        //create backup copy before update
+         var sqlBackup = "Insert INTO rc_Backups (pwId, pwName, pwTitle, pwText, pwFile, pwDate, BType) "
+            + "values (@0, @1, @2, @3, @4, @5,'w')";
+             db.Execute(sqlBackup, Id, wName, wTitle, wText, wFile, wEditDate);
+             
+        //update record     
         wName = Request["wName"];
         wTitle = Request["wTitle"];
         wText = Request.Unvalidated("wText");
@@ -34,20 +43,41 @@
             + "wTitle=@0, wText=@1, wEditdate=@2, wFile=@3 "
             + "where Id=@4";
 
-        try
-        {
+        try{
             db.Execute(sqlUpdate, wTitle, wText, wEditDate, wFile, Id);
             errMSG = "Data saved !";
-        }
-        catch (Exception ex)
-        {
+            }
+        catch (Exception ex){
 
             errMSG = ex.Message.ToString();
-        }
+            }
+         }else{
+             //load from backup - post & btnUpdate is empty
+             var loadFromBackup = "Select * from rc_Backups where Id=@0";
+             var dataFromBackup = db.QuerySingle(loadFromBackup, Request["rcBackup"]);
+
+             wName = dataFromBackup.pwName;
+             wTitle = dataFromBackup.pwTitle;
+             wText = dataFromBackup.pwText;
+             wEditDate = dataFromBackup.pwDate;
+             wFile = dataFromBackup.pwFile;
+            }
+        
+    }
+
+    int numberOfBackups = 0;
+    var selectBackups = "Select Id, pwDate from rc_Backups where bType='w' and pwID=@0 order by id Desc";
+    var dataBackups = db.Query(selectBackups, Id);
+    numberOfBackups = dataBackups.Count();
+    //delete old backups, we want keep only top 5 backups per page/widget
+    if (numberOfBackups > 5)
+    {
+        int TopRecords = numberOfBackups - 5;
+        var deleteBackups = "Delete from rc_Backups where Id in (Select TOP " + TopRecords + " Id from rc_Backups where bType='w' and pwID=@0 order by Id Asc)";
+        db.Execute(deleteBackups, Id);
+    }
 
     }
-    
-}
 
 @section head {
 <!-- You can use any editor you want. We decided to use TinyMCE visit http://tinymce.moxiecode.com/ for licence and help -->
@@ -103,9 +133,18 @@
 
     </script>
 <!-- /TinyMCE -->
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        $("#rcBackup").change(function () {
+            $("#editWidget").submit();
+        });
+
+    });
+</script>
 }
 
-<form action="" method="post">
+<form action="" method="post" id="editWidget">
  <fieldset>
         <legend>Edit Widget</legend>
         @errMSG
@@ -135,6 +174,13 @@
             </ol>
             <textarea id="wText" name="wText" cols="80" rows="15">@wText</textarea>
      <input type="submit" name="btnUpdate" value="Update" />
+        <select id="rcBackup" name="rcBackup">
+     <option value="-1">Load from backup</option>
+               @foreach (var f in dataBackups.Take(5) )
+               {
+                <option value="@f.Id">@f.pwDate</option>
+               }
+                </select> <img src="images/help.gif" alt="help" title="Load content from backup. Every time you update widget/page razorC will create backup of that widget/page. By default last 5 version of widget/page are stored in rc_Backups table." />
        
 </fieldset> 
 
