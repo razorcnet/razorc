@@ -52,6 +52,8 @@
             errMSG = ex.Message.ToString();
             }
          }else{
+              //from backup - load current version selected
+             if (Request["rcBackup"].AsInt() ==0){Response.Redirect("EditWidget.cshtml?id=" + Id);}
              //load from backup - post & btnUpdate is empty
              var loadFromBackup = "Select * from rc_Backups where Id=@0";
              var dataFromBackup = db.QuerySingle(loadFromBackup, Request["rcBackup"]);
@@ -180,6 +182,7 @@
                {
                 <option value="@f.Id">@f.pwDate</option>
                }
+            <option value="0">Load current version</option>
                 </select> <img src="images/help.gif" alt="help" title="Load content from backup. Every time you update widget/page razorC will create backup of that widget/page. By default last 5 version of widget/page are stored in rc_Backups table." />
        
 </fieldset> 

@@ -8,8 +8,7 @@
     var fileContent=Request.Unvalidated("fileContent");
 
     var errMSG = "";
-
-   
+       
     
     //List all Layout files
     DirectoryInfo dirInfo = new DirectoryInfo(Server.MapPath("~/rcLayouts"));  
@@ -30,7 +29,7 @@
        
     if (IsPost){
 
-        if(!fileContent.IsEmpty() && !fileToEdit.IsEmpty()){
+        if(!fileContent.IsEmpty() && !fileToEdit.IsEmpty() && fileToEdit.Contains("rcLayouts")){
             try {
             System.IO.File.WriteAllText(fileToEdit,fileContent);
             errMSG="File updated";
@@ -39,7 +38,7 @@
                 }
         }
     }else{
-    if (!fileToEdit.IsEmpty()){
+    if (!fileToEdit.IsEmpty() && fileToEdit.Contains("rcLayouts")){
     fileContent= System.IO.File.ReadAllText(fileToEdit);
     }
  }
