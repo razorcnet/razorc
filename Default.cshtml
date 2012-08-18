@@ -6,7 +6,7 @@
     var db = Database.Open("razorC"); 
     var selectQueryString = "SELECT pId, pName, pTitle, pText, mTitle, mDescription, mKeywords, pMasterPage, pBody, pBodyFile "
                             + "FROM rc_Pages "
-                            + "WHERE pName = @0";
+                            + "WHERE pName = @0 and rcPage=1";
 
 
     var data = db.QuerySingle (selectQueryString, pageName);
@@ -19,6 +19,20 @@
     Page.mTitle = data.mTitle;
     Page.mKeywords = data.mKeywords;
     Page.mDescription = data.mDescription;
+
+    if (data.pBodyFile.StartsWith("_addon_") && !Context.GetRouteValue("rc0").IsEmpty())
+    {
+        //load tags based on urldata[0] 
+        var selectQueryString1 = "SELECT mTitle, mDescription, mKeywords FROM rc_Pages WHERE pName = @0 and rcPage=0";
+
+        var data1 = db.QuerySingle(selectQueryString1, Context.GetRouteValue("rc0"));
+        if (data1 != null)
+        {
+            Page.mTitle = data1.mTitle;
+            Page.mKeywords = data1.mKeywords;
+            Page.mDescription = data1.mDescription;
+        }
+    }
 
     //this will select all widgets for selected page. widgets will be loaded to sections rcTOP, rcLeft, rcRight, rcBottom
     var selectWidgets = "Select rc_PageWidget.pId, rc_PageWidget.sName, rc_PageWidget.wId, rc_Widgets.wTitle, rc_Widgets.wText, rc_Widgets.wFile, rc_Widgets.wName "
@@ -33,7 +47,7 @@
 @section head{
 @* DO NOT REMOVE THIS COPYRIGHT *@
 <!--
-razorC.net v1.0.5 - http://www.razorC.net 
+razorC.net v1.0.6 - http://www.razorC.net 
 Copyright (c) @DateTime.Now.Year  by New Media Group, Inc. 
 Released for free under MS-PL
 -->

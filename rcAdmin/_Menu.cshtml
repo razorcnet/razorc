@@ -1,0 +1,34 @@
+﻿@{  
+}
+<a href="@Href("~/Default")" class="top">Your Site</a>
+    <ul>
+    <li><a href="@Href("Default")" id="default">Dashboard</a></li>
+    <li><a href="@Href("ChangePassword")" id="changepassword">Change Password</a></li>
+    
+    <li><a href="@Href("NewPage")" id="newpage">Create Page</a></li>
+    <li><a href="@Href("AllPages")" id="allpages">Show All Pages</a></li>
+   
+    <li><a href="@Href("SimpleMenu")" id="simplemenu">Simple Menu</a></li>
+   
+    <li><a href="@Href("NewWidget")" id="newwidget">Create Widget</a></li>
+    <li><a href="@Href("AllWidgets")" id="allwidgets">Show All Widgets</a></li>
+   
+    <li><a href="@Href("Editor")" id="editor">File Editor</a></li>
+    </ul>
+     <script type="text/javascript">
+             var pageName = window.location.pathname.substring(window.location.pathname.lastIndexOf("/") + 1, window.location.pathname.lenght).toLowerCase();
+             if (pageName.match("^editpage")) {
+                 $('#allpages').toggleClass('selected');
+
+             } else if (pageName.match("^widgetsinsection")) {
+                 $('#allpages').toggleClass('selected');
+
+             } else if (pageName.match("^editwidget")) {
+                 $('#allwidgets').toggleClass('selected');
+
+             } else if (pageName=="") {
+                 $('#default').toggleClass('selected');
+
+             }
+             $('#' + pageName).toggleClass('selected');
+    </script>
