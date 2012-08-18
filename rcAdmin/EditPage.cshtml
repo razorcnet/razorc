@@ -9,8 +9,7 @@
     FileInfo[] fileInfo = dirInfo.GetFiles("_*.cshtml", SearchOption.TopDirectoryOnly  );
 
     // list all the body pages
-    DirectoryInfo dirInfoBody = new DirectoryInfo(Server.MapPath("~/rcTemplates/Body"));
-    FileInfo[] fileInfoBody = dirInfoBody.GetFiles("_*.cshtml", SearchOption.TopDirectoryOnly);
+    List<string> pBodies = rcFunctions.pageBodies();
 
     var pId = Request["id"];
     var errMSG = "";
@@ -173,7 +172,9 @@
     });
 </script>
 }
-
+@section menu{
+@RenderPage("_Menu.cshtml")
+}
 <form action="" method="post" id="editPage">
  <fieldset>
         <legend>Edit Page</legend>
@@ -203,10 +204,10 @@
                 <li>
                 <label for="pBody">Body template:</label>
                  <select id="pBodyFile" name="pBodyFile">
-               @foreach (var f in fileInfoBody)
+               @foreach (var fName in pBodies)
                {
-                <option value="@f.Name" @if (pBodyFile == f.Name)
-                                        {<text>selected="selected"</text>}>@rcFunctions.CleanRCNames(f.Name)</option>
+                <option value="@fName" @if (pBodyFile == fName)
+                                        {<text>selected="selected"</text>}>@rcFunctions.CleanRCNames(fName)</option>
                }
                 </select>  <img src="images/help.gif" alt="help" title="Template that will be used to render a body part of your page. All body templates are in rcTempaltes/Body folder - you can add/change/modify them to fit your needs" />
                 Render body:<input id="pBody" name="pBody" type="checkbox" @if (pBody)

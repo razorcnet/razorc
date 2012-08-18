@@ -4,7 +4,7 @@
     font-family: "Trebuchet MS" , Verdana, Helvetica, Sans-Serif;
     margin: 0;
     padding: 0;
-    color: #696969;
+    color: #3C444F;
     background-image: url('../images/bg.jpg');
     background-repeat: repeat-y;
     background-color: #FFFFFF;
@@ -55,30 +55,25 @@ h5, h6 {
 
 /* PRIMARY LAYOUT ELEMENTS   
 ----------------------------------------------------------*/
-#page {
-    width: 100%;
-}
+#page {width: 100%;}
 
-#menu
-{
-    float:left;
-    width:200px;
+#menu{float:left;width:200px;text-transform:uppercase;}
+#menu a{color:#ffffff; text-decoration:none; font-weight:bold; }
+#menu a.top{background-position: left center;background: url('../images/arr_up.jpg'); background-repeat: no-repeat; height:30px; display:block; padding-left:45px;padding-top:10px; font-size:1.25em;}
+#menu a.back{background-position: left center;background: url('../images/arr_back.jpg'); background-repeat: no-repeat; height:30px; display:block; padding-left:45px;padding-top:10px; font-size:1.25em;}
+#menu ul li{list-style-type:none; }
+#menu ul li a{ color:#ffffff; text-decoration:none; font-weight:bold; display:block; height:20px; width:168px;padding:10px 10px 10px 20px; margin-left:-40px;}
+#menu ul li a:hover{background-color:#7CC1DE;}
+#menu ul li a.selected{ color:#3C444F; font-weight:bold; background-color:#ffffff;}
 
-}
-#menu a{color:#ffffff; text-decoration:none;}
-#menu a:hover{color:#999999; text-decoration:underline;}
-
-#content
-{
-    float:left;
-    width:780px;
-    padding:0 20px 20px 20px;
-    }
+#content{float:left;width:780px;padding:0 20px 20px 20px;}
 
 #renderBody
 {
     background-color:#ffffff;
    }
+   
+   
 /* Site Title 
 ----------------------------------------------------------*/
 #header .site-title {
@@ -175,16 +170,33 @@ fieldset {
     
     fieldset input[type="text"], input[type="password"] {
         border: 1px solid #ccc;
-        padding: 2px;
+        padding: 5px;
         font-size: 1.2em;
         color: #444;
         width: 300px;
     }
 
-    fieldset input[type="submit"] {
-        font-size: 1.2em;
+fieldset select
+{
+     border: 1px solid #ccc;
         padding: 5px;
+        font-size: 1.2em;
+        color: #444;
+       
+        }
+    fieldset input[type="submit"]
+{
+    font-size: 1.2em;
+    padding: 10px 15px 10px 15px;
+    background-color: #71B1D1;
+    color: #ffffff;
+    border:none;
+
+}
+     fieldset input[type="submit"]:hover {
+        background-color:#7CC1DE;
     }
+    
     
  /* Information and errors  
 ----------------------------------------------------------*/  
