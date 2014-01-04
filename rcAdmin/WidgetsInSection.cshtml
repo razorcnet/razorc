@@ -49,14 +49,13 @@
     object[] arr = availZones.ToArray();
     var distZones = arr.Distinct();
         
-          
-    if (IsPost)
+    Validation.RequireField("wOrderId","Please enter order id");
+    Validation.Add("wOrderId",Validator.Integer("Order Id must be an integer"));
+
+    if (IsPost && Validation.IsValid())
     {
 
-        if (wOrderId.IsEmpty())
-        {
-            errMsg = "Please enter order id<br/>";
-        }
+
         if (pageId.IsEmpty())
         {
             errMsg += "Id of the page is missing !<br/>";
@@ -134,7 +133,7 @@
              </li>
              <li >
                 <label for="wOrderId">Order Id:</label>
-                <input type="text" name="wOrderId" id="wOrderId" value="@wOrderId" /> <img src="images/help.gif" alt="help" title="Higher the number , higher the position of the widget on page" />
+                <input type="text" name="wOrderId" @Validation.For("wOrderId") id="wOrderId" value="@wOrderId" /> <img src="images/help.gif" alt="help" title="Higher the number , higher the position of the widget on page" /> @Html.ValidationMessage("wOrderId")
             </li>
     </ol> 
     <input type="submit" value="Insert" title="Insert" @if(disableButton==true){<text>disabled="disabled"</text>} />

@@ -1,8 +1,10 @@
 ﻿@{
     //super simple login page
     //just to provide basic protection for control panel
+    Validation.RequireField("uName", "Required field");
+    Validation.RequireField("uPwd","Required field");
 
-    if (IsPost){
+    if (IsPost && Validation.IsValid()){
 
         var un = Request["uName"];
         var up = Request["uPwd"];
@@ -26,79 +28,32 @@
 <html>
     <head>
         <title>razorC.net - login page</title>
+        <script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.0.3.js"></script>
+    <script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jquery.ui/1.10.3/jquery-ui.js"></script>
+    <script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.js"></script>
+    <script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/mvc/4.0/jquery.validate.unobtrusive.js"></script>
+    <link type="text/css" rel="Stylesheet" href="http://ajax.aspnetcdn.com/ajax/jquery.ui/1.10.3/themes/black-tie/jquery-ui.css" />
+    <link href="~/rcAdmin/css/rcCP.css" rel="stylesheet" />
         
-        <style type="text/css" >
-            body {
-        background-color: #ffffff;
-        font-size: .85em;
-        font-family: "Trebuchet MS", Verdana, Helvetica, Sans-Serif;
-        margin: 0;
-        padding: 0;
-        color: #696969;
-    }
-            fieldset {
-        margin: 1em 0;
-        padding: 1em;
-        border: 1px solid #CCC;
-    }
-
-        fieldset legend {
-            font-size: 1.1em;
-            font-weight: bold;
-            padding: 2px 4px 8px 4px;
-        }
-    
-        fieldset ol {
-            padding: 0;
-            list-style: none;
-        }
-    
-            fieldset ol li {
-                padding-bottom: 5px;
-            }
-    
-        fieldset label {
-            display: block;
-        }
-    
-        fieldset label.checkbox {
-            display: inline;
-        }
-    
-       fieldset input[type="text"], input[type="password"] {
-        border: 1px solid #ccc;
-        padding: 5px;
-        font-size: 1.2em;
-        color: #444;
-        width: 300px;
-    }
-
-         fieldset input[type="submit"]
-{
-    font-size: 1.2em;
-    padding: 10px 15px 10px 15px;
-    background-color: #71B1D1;
-    color: #ffffff;
-    border:none;
-
-}
-     fieldset input[type="submit"]:hover {
-        background-color:#7CC1DE;
-    }
-        </style>
     </head>
     <body>
-        <form method="post" action="">
+
+         <div id="page">
+        <div id="menu">
+          <a href="~/Default" class="top">Your Site</a>
+        </div>
+        <div id="content">
+            <form method="post" action="">
  <fieldset>
         <legend>Login</legend>
         <ol>
             <li >
                 <label for="uName">User:</label>
-                <input type="text" name="uName" id="uName" value="" maxlength="50" />
+                <input type="text" name="uName" @Validation.For("uName") id="uName" value="" maxlength="50" /> @Html.ValidationMessage("uName")
                 </li>
                 <li>
                 <label for="uPwd">Password:</label>
-                <input type="password" name="uPwd" id="uPwd" value="" />
+                <input type="password" name="uPwd" @Validation.For("uPwd") id="uPwd" value="" /> @Html.ValidationMessage("uPwd")
             </li>
         </ol>
           <p class="form-actions">
@@ -106,5 +61,10 @@
         </p>
 </fieldset>
 </form>
+        </div>
+    </div>
+
+
+        
     </body>
 </html>

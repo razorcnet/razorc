@@ -17,21 +17,14 @@
         Response.Redirect("SimpleMenu");
     }
     
-    if (IsPost){
-                  
-        if (smName.IsEmpty()){
-            errMsg = "Please enter name<br/>";
-        }
-        if (smOrderId.IsEmpty())
-        {
-            errMsg += "Please enter order <br/>";
-        }
-        
-        //no errors = insert record
-        if (errMsg.IsEmpty())
-        {
-            
-            
+
+    Validation.RequireField("smName","Please enter name");
+    Validation.RequireField("smOrderId","Please enter order");
+    Validation.Add("smOrderId",Validator.Integer("Order must be an integer") );
+
+    if (IsPost && Validation.IsValid()){
+      //no errors = insert record
+
             if (smURL.IsEmpty()){
             smURL="~/" + Request["smPage"];
             if (smURL.ToLower() == "~/default") { smURL = "~/"; }
@@ -51,8 +44,7 @@
             
             errMsg = ex.Message.ToString();
         }
-        
-        }
+  
         
     }
 
@@ -87,7 +79,7 @@
        <ol>
             <li >
                 <label for="smName">Name:</label>
-                <input type="text" name="smName" id="smName" value="@smName" maxlength="50" /> <img src="images/help.gif" alt="help" title="Name that will be visible in menu" />
+                <input type="text" name="smName" @Validation.For("smName") id="smName" value="@smName" maxlength="50" /> <img src="images/help.gif" alt="help" title="Name that will be visible in menu" /> @Html.ValidationMessage("smName")
              </li>
              <li >
                 <label for="smPage">Select Page:</label>
@@ -105,7 +97,7 @@
              </li>
                <li >
                 <label for="smOrderId">Order:</label>
-                <input type="text" name="smOrderId" id="smOrderId" value="@smOrderId" /> <img src="images/help.gif" alt="help" title="Higher the number, higher the position of item in menu" />
+                <input type="text" name="smOrderId" @Validation.For("smOrderId") id="smOrderId" value="@smOrderId" /> <img src="images/help.gif" alt="help" title="Higher the number, higher the position of item in menu" /> @Html.ValidationMessage("smOrderId")
              </li>
               <li >
                 <label for="smTarget">Target:</label>
