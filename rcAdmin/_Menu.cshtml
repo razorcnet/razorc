@@ -1,19 +1,19 @@
 ﻿@{  
 }
-<a href="@Href("~/Default")" class="top">Your Site</a>
+<a href="~/Default" class="top">Your Site</a>
     <ul>
-    <li><a href="@Href("Default")" id="default">Dashboard</a></li>
-    <li><a href="@Href("ChangePassword")" id="changepassword">Change Password</a></li>
+    <li><a href="~/rcAdmin/Default" id="default">Dashboard</a></li>
+    <li><a href="~/rcAdmin/ChangePassword" id="changepassword">Change Password</a></li>
     
-    <li><a href="@Href("NewPage")" id="newpage">Create Page</a></li>
-    <li><a href="@Href("AllPages")" id="allpages">Show All Pages</a></li>
+    <li><a href="~/rcAdmin/NewPage" id="newpage">Create Page</a></li>
+    <li><a href="~/rcAdmin/AllPages" id="allpages">Show All Pages</a></li>
    
-    <li><a href="@Href("SimpleMenu")" id="simplemenu">Simple Menu</a></li>
+    <li><a href="~/rcAdmin/SimpleMenu" id="simplemenu">Simple Menu</a></li>
    
-    <li><a href="@Href("NewWidget")" id="newwidget">Create Widget</a></li>
-    <li><a href="@Href("AllWidgets")" id="allwidgets">Show All Widgets</a></li>
+    <li><a href="~/rcAdmin/NewWidget" id="newwidget">Create Widget</a></li>
+    <li><a href="~/rcAdmin/AllWidgets" id="allwidgets">Show All Widgets</a></li>
    
-    <li><a href="@Href("Editor")" id="editor">File Editor</a></li>
+    <li><a href="~/rcAdmin/Editor" id="editor">File Editor</a></li>
     </ul>
      <script type="text/javascript">
              var pageName = window.location.pathname.substring(window.location.pathname.lastIndexOf("/") + 1, window.location.pathname.lenght).toLowerCase();

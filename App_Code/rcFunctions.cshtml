@@ -1,5 +1,9 @@
 ﻿@functions {
-
+/// <summary>
+/// clean names - remove _rc, .cshtml, rc from names
+/// </summary>
+/// <param name="name"></param>
+/// <returns></returns>
     public static string CleanRCNames(string name)
     {
         name = name.Replace("_rc", "");
