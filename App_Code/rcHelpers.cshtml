@@ -1,19 +1,26 @@
-﻿@helper SimpleMenu() {
+﻿@helper SimpleMenu(string className = null, string id = null) {
     var db = Database.Open("razorC");
     var sqlSelect = "select * from rc_SimpleMenu order by smOrderId DESC";
     var data = db.Query(sqlSelect);
 
-    var pageName = "~/" + Context.GetRouteValue("rcPageName").ToLower() ;
-    if ((pageName==null) || (pageName=="~/default")) { pageName = "~/"; }
+    var pageName = Context.GetRouteValue("rcPageName");
+    if (pageName == null){pageName = "default";}
 
-   <ul class="nav navbar-nav navbar-right">
+    pageName = "~/" + pageName.ToLower() ;
+    if  (pageName=="~/default") { pageName = "~/"; }
+
+
+   <ul class="@className" id="@id">
     @foreach (var row in data)
     {
-        if(row.smURL.ToString().StartsWith("~")){
-       <li @if(pageName==row.smUrl){<text>class="active"</text>}><a href="@Href(row.smUrl)" target="@row.smTarget">@row.smName</a></li>
-        }else{
-        <li><a href="@row.smUrl" target="@row.smTarget">@row.smName</a></li>
+        string URL = row.smUrl;
+         if (row.smURL.ToString().StartsWith("~"))
+        {
+            URL = Href(row.smURL);
         }
+
+       <li @if(pageName==row.smUrl){<text>class="active"</text>}><a href="@URL" target="@row.smTarget">@row.smName</a></li>
+
     }
     </ul>
 }
