@@ -33,7 +33,7 @@
               <a class="navbar-brand" href="/">razorC.net</a>
             </div>
             <div class="navbar-collapse collapse">
-                 @rcHelpers.SimpleMenu()
+                 @rcHelpers.SimpleMenu(className:"nav navbar-nav navbar-right",id:"rcSimpleMenu")
             </div>
           </div>
         </div>
@@ -79,10 +79,10 @@ The other option is to create multiple layout pages in rcLayouts folder
         @if(IsSectionDefined("rcLeft") && !IsSectionDefined("rcRight")){
         <!-- START 2 columns layout - left sidebar -->
       <div class="row">
-          <div class="col-md-5">
+          <div class="col-md-3">
            @RenderSection("rcLeft",false)
         </div>
-        <div class="col-md-7">
+        <div class="col-md-9">
            @RenderSection("rcAboveBody",false)
            @RenderBody()
            @RenderSection("rcBelowBody",false)
@@ -94,12 +94,12 @@ The other option is to create multiple layout pages in rcLayouts folder
         @if(!IsSectionDefined("rcLeft") && IsSectionDefined("rcRight")){
         <!-- START 2 columns layout - right sidebar-->
       <div class="row">
-        <div class="col-md-7">
+        <div class="col-md-9">
            @RenderSection("rcAboveBody",false)
            @RenderBody()
            @RenderSection("rcBelowBody",false)
         </div>
-        <div class="col-md-5">
+        <div class="col-md-3">
           @RenderSection("rcRight",false)
         </div>
       </div>
@@ -119,6 +119,7 @@ The other option is to create multiple layout pages in rcLayouts folder
         }
 
         <hr class="featurette-divider">
+        @RenderSection("rcBottom",false)
 
       <!-- FOOTER -->
       <footer>
@@ -130,7 +131,7 @@ The other option is to create multiple layout pages in rcLayouts folder
 
      
            
-      @RenderSection("rcBottom",false)
+      
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.10.2.js"></script>
