@@ -5,9 +5,25 @@
     
             
   //  WebSecurity.InitializeDatabaseConnection("StarterSite", "UserProfile", "UserId", "Email", true);
-    // WebMail.SmtpServer = "mailserver.example.com";
-    // WebMail.EnableSsl = true;
-    // WebMail.UserName = "username@example.com";
-    // WebMail.Password = "your-password";
-    // WebMail.From = "your-name-here@example.com";
+
+    var db = Database.Open("razorC");
+    var sqlSelect = "SELECT TOP 1 * From rc_Settings";
+    var data = db.QuerySingle(sqlSelect);
+
+
+    //THE EMAIL SETTINGS CAN BE CHANGED IN THE ADMIN DASHBOARD UNDER, WEBSITE SETTINGS.
+
+    App.SmtpServer = data.smtpServer;
+    App.SmtpPort = data.smtpPort; 
+    App.EnableSsl = data.smtpSSL;
+    App.UserName = data.smtpUser;
+    App.Password = data.smtpPwd;
+    App.From = data.smtpFrom;
+    
+    // GLOBAL VARIABLE FOR YOUR WEBSITE NAME YOU CAN CHANGE THE NAME IN THE ADMIN DASHBOARD
+    App.siteName = data.siteName;
+    App.siteAnalytics =  data.siteAnalytics;
+    App.smtpTo = data.smtpTo;
+
+   
 }
