@@ -2,8 +2,8 @@
     Page.Title = "Site Settings";
     var db = Database.Open("razorC");
 
-    var siteName = Request.Unvalidated["siteName"];
-    var siteAnalytics = Request.Unvalidated["siteAnalytics"];
+    var siteName = Request.Unvalidated("siteName");
+    var siteAnalytics = Request.Unvalidated("siteAnalytics");
 
     var smtpServer = Request["smtpServer"];
     var smtpPort = Request["smtpPort"];

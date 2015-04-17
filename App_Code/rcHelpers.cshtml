@@ -1,4 +1,5 @@
 ﻿@helper SimpleMenu(string className = null, string id = null) {
+   
     var db = Database.Open("razorC");
     var sqlSelect = "select * from rc_SimpleMenu order by smOrderId DESC";
     var data = db.Query(sqlSelect);
@@ -10,19 +11,56 @@
     if  (pageName=="~/default") { pageName = "~/"; }
 
 
-   <ul class="@className" id="@id">
-    @foreach (var row in data)
+    <ul class="@className" id="@id">
+    @BuildMenu(data,0,pageName)
+    </ul>
+    
+}
+
+@helper  BuildMenu(IEnumerable<dynamic> menu, int parentid ,  string pageName ) {
+   
+    var items = menu.Where(m => m.smParentId == parentid);
+    
+    if (items.Any())
     {
-        string URL = row.smUrl;
-         if (row.smURL.ToString().StartsWith("~"))
-        {
-            URL = Href(row.smURL);
+
+        if(items.First().smParentId > 0){
+            @:<ul class="dropdown-menu">
         }
 
-       <li @if(pageName==row.smUrl){<text>class="active"</text>}><a href="@URL" target="@row.smTarget">@row.smName</a></li>
+        foreach (var item in items)
+        {
+            var hasChilds = menu.Where(m => m.smParentId == item.Id);
+            var childPage="";
+            if (hasChilds.Any())
+            {
+                foreach (var child in hasChilds)
+                {
+                    if (pageName == child.smURL){
+                        pageName = item.smUrl;
+                        childPage = child.smURL;
+                    }
+                }
+            }
+            
+            string URL = item.smUrl;
+            if (item.smURL.ToString().StartsWith("~"))
+            {
+                URL = Href(item.smURL);
+            }
+
+            <li @if (pageName == item.smUrl ) { <text> class="active" </text> }>
+                <a href="@URL" target="@item.smTarget" @if (hasChilds.Any() ) { <text> data-toggle="dropdown" class="dropdown-toggle" </text> }>@item.smName @if (hasChilds.Any()) { <text><span class="caret"></span></text>}</a>
+                @BuildMenu(menu, item.Id, childPage )
+            </li>
+        }
+
+        if (items.First().smParentId > 0)
+        {
+            @:</ul>
+        }
 
     }
-    </ul>
 }
 
 
