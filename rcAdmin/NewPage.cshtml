@@ -1,6 +1,6 @@
 ﻿@{
 
-    Page.Title = "Create new page";
+    Page.Title = "Create New Page";
     var pName = "";
     var pTitle = "Page Title Here";
     var pText = "Text of the page";
@@ -35,7 +35,7 @@
     if (IsPost && Validation.IsValid()){
 
              //clean pName - it is not passed as parameter :(
-                var pNameSQL = pName.Replace(" ", "").Trim();
+                var pNameSQL = pName.ToString().Trim().Replace(" ","-");
                 pNameSQL = pNameSQL.Replace("'", "").ToLower();
 
             

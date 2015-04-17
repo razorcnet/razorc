@@ -29,8 +29,7 @@
     var pBody = data.pBody;
     var pBodyFile = data.pBodyFile;
 
-    Page.Title = Html.Raw("razorC.net" + " <a href=\"WidgetsInSection.cshtml?pid=" + pId + "&pName=" + pName + "\" title=\"Widgets\">"
-    + "<img src=\"images/widgets.gif\" alt=\"Widgets\" class=\"rcGC\" /></a>");
+    Page.Title = "razorC.net";
     
     if (IsPost){
         
@@ -159,7 +158,7 @@
 }
 <form action="" method="post" id="editPage">
  <fieldset>
-        <legend>Edit Page | <a href="~/rcAdmin/AllPages">All Pages</a> | <a href="~/rcAdmin/NewPage">Create Page</a> </legend>
+        <legend>Edit Page | <a href="~/rcAdmin/WidgetsInSection.cshtml?pid=@pId&pName=@pName">Widgets on Page</a> | <a href="~/rcAdmin/AllPages">All Pages</a> | <a href="~/rcAdmin/NewPage">Create Page</a></legend>
         @errMSG
         Edited: @pEditDate 
         <ol>
@@ -215,7 +214,7 @@
         <ol>
                 <li>
                 <label for="mTitle">Title:</label>
-                <input type="text" name="mTitle" id="mTitle" value="@mTitle" maxlength="100" /> <img src="images/help.gif" alt="help" title="Meta tag: Title" />
+                <input type="text" name="mTitle" id="mTitle" value="@mTitle" maxlength="70" /> <img src="images/help.gif" alt="help" title="Meta tag: Title" />
                 </li>
                 <li>
                 <label for="mDescription">Description:</label>

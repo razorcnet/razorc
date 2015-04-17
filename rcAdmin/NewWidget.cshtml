@@ -1,5 +1,5 @@
 ﻿@{
-    Page.Title = "Create new widget";
+    Page.Title = "Create New Widget";
 
     var wName = "";
     var wTitle = "Title Here";
@@ -21,8 +21,11 @@
 
     if (IsPost && Validation.IsValid())
     {
-        
-      
+
+            //clean wName 
+            var wNameSQL = wName.ToString().Trim().Replace(" ","-");
+            wNameSQL = wNameSQL.Replace("'", "").ToLower();
+
            var db = Database.Open("razorC");
             var sqlIN = "Insert into rc_Widgets "
                 + "(wName, wTitle, wText, wEditDate, wFile) values "
@@ -30,7 +33,7 @@
 
             try
             {
-                db.Execute(sqlIN, wName, wTitle, wText, wEditDate, wFile );
+                db.Execute(sqlIN, wNameSQL, wTitle, wText, wEditDate, wFile );
                 Response.Redirect("EditWidget.cshtml?id=" + db.GetLastInsertId());
             }
             catch (Exception ex)

@@ -3,8 +3,7 @@
     var pageId = Request["pId"];
     var pageName = Request["pName"];
 
-    Page.Title = Html.Raw("Widgets In Section (page:" + pageName + " <a href=\"EditPage.cshtml?id=" + pageId + "\" title=\"Edit Page\" >"
-        +"<img src=\"images/edit_page.gif\" alt=\"Edit\" class=\"rcGC\" /></a>)");
+    Page.Title = "Widgets On Page: " + pageName ;
             
     var errMsg = "";
     var disableButton = false;
@@ -103,7 +102,7 @@
 @RenderPage("_Menu.cshtml")
 }
  <fieldset>
-   <legend>Insert</legend>
+   <legend>Insert | <a href="~/rcAdmin/EditPage.cshtml?id=@pageId">Edit Page</a></legend>
    @if (!errMsg.IsEmpty())
     {
     <div> 
