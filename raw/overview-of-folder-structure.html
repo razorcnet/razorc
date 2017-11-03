@@ -1,0 +1,71 @@
+<div class="wikidoc">
+<h1>RazorC Folder Structure</h1>
+<p>&nbsp;</p>
+<p>RazorC uses the ASP.NET WebPages framework which does not have a strict file folder structure so you can create any folder you like, however RazorC has a decent structure so you can easily manage your website.</p>
+<p><a href="http://download-codeplex.sec.s-msft.com/Download?ProjectName=razorc&DownloadId=711806">image3.png</a><img src="http://download-codeplex.sec.s-msft.com/Download?ProjectName=razorc&DownloadId=711806" alt=""></p>
+<p>This is the default structure, I will talk about each folder and its purpose.</p>
+<p>&nbsp;</p>
+<p><strong>Account</strong></p>
+<blockquote>
+<p>This is where your login form is, note this is the default location ASP.NET will redirect users if they access a page which requires authentication. RazorC uses a simple plain text authentication and not the WebSecurity Class.</p>
+</blockquote>
+<p><strong>App_Code</strong></p>
+<blockquote>
+<p>This is a secure ASP.NET folder, it contains all classes and functions and helpers for your website.</p>
+</blockquote>
+<p><strong>App_Data</strong></p>
+<blockquote>
+<p>This is a secure ASP.NET folder, this stores your SQL Server CE database. (NOTE: This folder requires read / write permissions when you publish your website!).</p>
+</blockquote>
+<p><strong>bin</strong></p>
+<blockquote>
+<p>This contains assemblies (DLL files).</p>
+</blockquote>
+<p><strong>rcAddons</strong></p>
+<blockquote>
+<p>This folder contains all addons you have added to your website, place addons in this folder!</p>
+</blockquote>
+<p><strong>rcAdmin</strong></p>
+<blockquote>
+<p>This is the backend administration&nbsp;section for your website.</p>
+</blockquote>
+<p><strong>rcLayouts</strong></p>
+<blockquote>
+<p>This is where you store your website layouts.</p>
+</blockquote>
+<p><strong>rcTemplates</strong></p>
+<blockquote>
+<p>This is where you store templates, (Widgets). By default razorC contains a few templates which are:</p>
+<ul>
+<li>_rcHTML.cshtml &ndash; Use this template to render out HTML content. </li><li>_rcSideBar.cshtml &ndash; Use this template for sidebar content (The data will appear in &lt;li&gt; tags).
+</li><li>_rcSlogan.cshtml &ndash; Use this for your website title. </li><li>_rcStandard.cshtml &ndash; This is what all pages are based on, this will render your main content.
+</li></ul>
+</blockquote>
+<p><strong>tiny_mce</strong></p>
+<blockquote>
+<p>Pretty easy to guess this is just an open-source HTML editor so you can edit and create pages.</p>
+</blockquote>
+<p><strong>upfiles</strong></p>
+<blockquote>
+<p>This is where you should upload files if you wish to make them public. (NOTE: This folder requires read / write permissions when you publish your website!)</p>
+</blockquote>
+<p><strong>_AppStart.cshtml</strong></p>
+<blockquote>
+<p>This is a required file, it is a special file in ASP.NET WebPages it stores settings for database connection, email settings and routing. DO NOT DELETE OR RENAME IT.</p>
+</blockquote>
+<p><strong>Default.cshtml</strong></p>
+<blockquote>
+<p>This file is used to retrieve the pages from the database, by default when you start your website it looks for a default page called &ldquo;default&rdquo; in the database. if not data is returned you are redirected to the error page.</p>
+</blockquote>
+<p><strong>rcError.cshtml</strong></p>
+<blockquote>
+<p>By default if an error occurs users are redirected here.</p>
+</blockquote>
+<p><strong>Web.Config</strong></p>
+<blockquote>
+<p>This is used in nearly all ASP.NET websites and is used to store your website settings (like custom error pages, URL rewriting etc)</p>
+</blockquote>
+<p>&nbsp;</p>
+<p>If you wish to learn more about ASP.NET WebPages please see this tutorials: <a href="http://www.thecodingguys.net/tutorials/asp/webpages">
+http://www.thecodingguys.net/tutorials/asp/webpages</a></p>
+</div><div class="ClearBoth"></div>
